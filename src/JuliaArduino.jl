@@ -30,18 +30,18 @@ module JuliaArduino
             )
     end
     
-    function digitalWrite(LED_BULTIN::Int64, stm::UInt8)
+    function digitalWrite(LED_BUILTIN::Int64, stm::UInt8)
 
-        if LED_BULTIN==7 && stm == MYHIGH
-            v = MYHIGH << LED_BULTIN
+        if LED_BUILTIN==7 && stm == MYHIGH
+            v = MYHIGH << LED_BUILTIN
             volatile_store(MYPORTB, v)
         elseif stm == MYLOW
             volatile_store(MYPORTB, stm)
         end
     end
     
-    function mypinMode(LED_BULTIN::Int64, stm::UInt8)
-        v = MYOUTPUT << LED_BULTIN
+    function mypinMode(LED_BUILTIN::Int64, stm::UInt8)
+        v = MYOUTPUT << LED_BUILTIN
         volatile_store(MYDDBR, v)
     end
 
