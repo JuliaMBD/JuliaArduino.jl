@@ -1,8 +1,8 @@
 module JuliaArduino
 
-    export myint, volatile_store, digitalWrite, mydelay, MYHIGH, MYLOW, MYOUTPUT, builddump, mypinMode
+    export Myint, volatile_store, digitalWrite, mydelay, MYHIGH, MYLOW, MYOUTPUT, builddump, mypinMode
 
-    const myint = Int16
+    const Myint = Int16
     #=
     function myfloat(x)
             return x::Float16
