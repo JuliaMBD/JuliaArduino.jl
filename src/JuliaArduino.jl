@@ -1,6 +1,6 @@
 module JuliaArduino
 
-    export myint, volatile_store, digitalWrite, mydelay, MYHIGH, MYLOW, MYOUTPUT, builddump
+    export myint, volatile_store, digitalWrite, mydelay, MYHIGH, MYLOW, MYOUTPUT, builddump, mypinMode
 
     const myint = Int16
     #=
@@ -16,8 +16,8 @@ module JuliaArduino
     const MYLOW = 0b00000000
 
     function volatile_store(x::Ptr{UInt8}, v::UInt8)
-            return println("ok")    #debug
-            #=return Base.llvmcall(
+            #return println("ok")    #debug
+            return Base.llvmcall(
                 """
                 %ptr = inttoptr i64 %0 to i8*
                 store volatile i8 %1, i8* %ptr, align 1
@@ -27,7 +27,7 @@ module JuliaArduino
                 Tuple{Ptr{UInt8},UInt8},
                 x,
                 v
-            )=#
+            )
     end
     
     function digitalWrite(LED_BULTIN::Int64, stm::UInt8)
@@ -40,8 +40,8 @@ module JuliaArduino
         end
     end
     
-    function mypinMode(LED_BULTIN::Int16, stm::UInt8)
-        v = MYDDBR | (MYOUTPUT << LED_BULTIN)
+    function mypinMode(LED_BULTIN::Int64, stm::UInt8)
+        v = MYOUTPUT << LED_BULTIN
         volatile_store(MYDDBR, v)
     end
 
