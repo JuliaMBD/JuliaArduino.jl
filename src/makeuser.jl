@@ -1,17 +1,17 @@
 module makeuser
-    include("./TestPkg.jl")
-	using TestPkg
+    include("./JuliaArduino.jl")
+	using JuliaArduino
 
-    const LED_BUILTIN = 7
+    const LED_BUILTIN = pin(13) 
     
     function blink() 
-		mypinMode(LED_BUILTIN, MYOUTPUT)
+		pinmode(LED_BUILTIN, OUTPUT)
 
 		while true
-			digitalWrite(LED_BUILTIN, MYHIGH)
-			mydelay(Myint(3000))
-			digitalWrite(LED_BUILTIN, MYLOW)
-			mydelay(Myint(3000))
+			digitalwrite(LED_BUILTIN, HIGH)
+			delay(int(3000))
+			digitalwrite(LED_BUILTIN, LOW)
+			delay(int(3000))
 		end
 	end
 	builddump(blink, Tuple{})

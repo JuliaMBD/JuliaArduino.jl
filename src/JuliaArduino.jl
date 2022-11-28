@@ -1,19 +1,24 @@
 module JuliaArduino
 
-    export Myint, volatile_store, digitalWrite, mydelay, MYHIGH, MYLOW, MYOUTPUT, builddump, mypinMode
+    include("./gpio.jl")
+    using .gpio
+    export Myint, volatile_store, digitalwrite, delay, HIGH, LOW, OUTPUT, builddump, pinmode, int, loop,pin, ppstr
 
     const Myint = Int16
-    #=
-    function myfloat(x)
-            return x::Float16
-    end
-    =#
 
-    const MYDDBR = Ptr{UInt8}(36)   #0x24
-    const MYPORTB = Ptr{UInt8}(37)  #0x25
-    const MYHIGH = 0b00000001
-    const MYOUTPUT = 0b00000001
-    const MYLOW = 0b00000000
+    function loop()
+        while true
+        end
+    end
+
+    
+    function int(x::Int64)
+            return Myint(x)
+    end
+    
+    const HIGH = 0b00000001
+    const OUTPUT = 0b00000001
+    const LOW = 0b00000000
 
     function volatile_store(x::Ptr{UInt8}, v::UInt8)
             #return println("ok")    #debug
@@ -29,20 +34,18 @@ module JuliaArduino
                 v
             )
     end
-    
-    function digitalWrite(LED_BUILTIN::Int64, stm::UInt8)
 
-        if LED_BUILTIN==7 && stm == MYHIGH
-            v = MYHIGH << LED_BUILTIN
-            volatile_store(MYPORTB, v)
-        elseif stm == MYLOW
-            volatile_store(MYPORTB, stm)
+    function digitalwrite(P::ppstr, stm::UInt8)
+
+        if stm == HIGH
+            volatile_store(P.PORT, P.bit)
+        elseif stm == LOW
+            volatile_store(P.PORT, stm)
         end
     end
     
-    function mypinMode(LED_BUILTIN::Int64, stm::UInt8)
-        v = MYOUTPUT << LED_BUILTIN
-        volatile_store(MYDDBR, v)
+    function pinmode(P::ppstr, stm::UInt8)
+        volatile_store(P.DDR, P.bit)
     end
 
     function keep(x)
@@ -57,17 +60,19 @@ module JuliaArduino
         )
     end
 
-    function mydelay(ms::Int16)
+    function delay(ms::Int16)
             for y in Int16(1):Int16(ms)
             keep(y)
         end
     end
 
-    using GPUCompiler
-    using LLVM
+
         #####
         # Compiler Target
         #####
+    using GPUCompiler
+    using LLVM
+
 
         struct Arduino <: GPUCompiler.AbstractCompilerTarget end
 
@@ -139,9 +144,6 @@ module JuliaArduino
                 str = read(`avr-objdump -dr $path`, String)
             end |> print
         end
-
-
-
 
 #=export greet
 greet() = print("Hello World!")=#
