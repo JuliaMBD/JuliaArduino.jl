@@ -1,5 +1,5 @@
 module gpio
-using DelimitedFiles
+using JSON
     export pin, ppstr
     struct ppstr
             DDR::Ptr{UInt8}
@@ -9,14 +9,11 @@ using DelimitedFiles
     end
 
     function pin(x::Int64)
-        io = zeros(Int64, 54,4)
-        io = readdlm("./src/2560.txt", ',',Int64, '\n')
-        S = ppstr(Ptr{UInt8}(io[x+1,1]), 
-            Ptr{UInt8}(io[x+1,2]), 
-            Ptr{UInt8}(io[x+1,3]), 
-            UInt8(io[x+1,4]))
+        io = JSON.parsefile("./src/ArduinoPin.json")
+        S = ppstr(Ptr{UInt8}(io["data"][x+1]["DDR"]), 
+            Ptr{UInt8}(io["data"][x+1]["PORT"]), 
+            Ptr{UInt8}(io["data"][x+1]["PIN"]), 
+            UInt8(io["data"][x+1]["bit"]))
         return S
     end
-
-
 end  

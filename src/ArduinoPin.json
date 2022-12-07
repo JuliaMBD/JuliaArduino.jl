@@ -1,0 +1,437 @@
+{
+"arduinotype": 2560,
+"data": [
+    {
+        "Pinout": "D0",
+        "micon'sport": "PE0",
+        "DDR": 46,
+        "PORT": 45,
+        "PIN": 44,
+        "bit": 1
+    },
+    {
+        "Pinout": "D1",
+        "micon'sport": "PE1",
+        "DDR": 46,
+        "PORT": 45,
+        "PIN": 44,
+        "bit": 2
+    },
+    {
+        "Pinout": "D2",
+        "micon'sport": "PE4",
+        "DDR": 46,
+        "PORT": 45,
+        "PIN": 44,
+        "bit": 16
+    },
+    {
+        "Pinout": "D3",
+        "micon'sport": "PE5",
+        "DDR": 46,
+        "PORT": 45,
+        "PIN": 44,
+        "bit": 32
+    },
+    {
+        "Pinout": "D4",
+        "micon'sport": "PG5",
+        "DDR": 52,
+        "PORT": 51,
+        "PIN": 50,
+        "bit": 32
+    },
+    {
+        "Pinout": "D5",
+        "micon'sport": "PE3",
+        "DDR": 46,
+        "PORT": 45,
+        "PIN": 44,
+        "bit": 8
+    },
+    {
+        "Pinout": "D6",
+        "micon'sport": "PH3",
+        "DDR": 258,
+        "PORT": 257,
+        "PIN": 256,
+        "bit": 8
+    },
+    {
+        "Pinout": "D7",
+        "micon'sport": "PH4",
+        "DDR": 258,
+        "PORT": 257,
+        "PIN": 256,
+        "bit": 16
+    },
+    {
+        "Pinout": "D8",
+        "micon'sport": "PH5",
+        "DDR": 258,
+        "PORT": 257,
+        "PIN": 256,
+        "bit": 32
+    },
+    {
+        "Pinout": "D9",
+        "micon'sport": "PH6",
+        "DDR": 258,
+        "PORT": 257,
+        "PIN": 256,
+        "bit": 64
+    },
+    {
+        "Pinout": "D10",
+        "micon'sport": "PB4",
+        "DDR": 37,
+        "PORT": 36,
+        "PIN": 35,
+        "bit": 16
+    },
+    {
+        "Pinout": "D11",
+        "micon'sport": "PB5",
+        "DDR": 37,
+        "PORT": 36,
+        "PIN": 35,
+        "bit": 32
+    },
+    {
+        "Pinout": "D12",
+        "micon'sport": "PB6",
+        "DDR": 37,
+        "PORT": 36,
+        "PIN": 35,
+        "bit": 64
+    },
+    {
+        "Pinout": "D13",
+        "micon'sport": "PB7",
+        "DDR": 37,
+        "PORT": 36,
+        "PIN": 35,
+        "bit": 128
+    },
+    {
+        "Pinout": "D14",
+        "micon'sport": "PJ1",
+        "DDR": 261,
+        "PORT": 260,
+        "PIN": 259,
+        "bit": 2
+    },
+    {
+        "Pinout": "D15",
+        "micon'sport": "PJ0",
+        "DDR": 261,
+        "PORT": 260,
+        "PIN": 259,
+        "bit": 1
+    },
+    {
+        "Pinout": "D16",
+        "micon'sport": "PH1",
+        "DDR": 258,
+        "PORT": 257,
+        "PIN": 256,
+        "bit": 2
+    },
+    {
+        "Pinout": "D17",
+        "micon'sport": "PH0",
+        "DDR": 258,
+        "PORT": 257,
+        "PIN": 256,
+        "bit": 1
+    },
+    {
+        "Pinout": "D18",
+        "micon'sport": "PD3",
+        "DDR": 43,
+        "PORT": 42,
+        "PIN": 41,
+        "bit": 8
+    },
+    {
+        "Pinout": "D19",
+        "micon'sport": "PD2",
+        "DDR": 43,
+        "PORT": 42,
+        "PIN": 41,
+        "bit": 4
+    },
+    {
+        "Pinout": "D20",
+        "micon'sport": "PD1",
+        "DDR": 43,
+        "PORT": 42,
+        "PIN": 41,
+        "bit": 2
+    },
+    {
+        "Pinout": "D21",
+        "micon'sport": "PD0",
+        "DDR": 43,
+        "PORT": 42,
+        "PIN": 41,
+        "bit": 1
+    },
+    {
+        "Pinout": "D22",
+        "micon'sport": "PA0",
+        "DDR": 34,
+        "PORT": 33,
+        "PIN": 32,
+        "bit": 1
+    },
+    {
+        "Pinout": "D23",
+        "micon'sport": "PA1",
+        "DDR": 34,
+        "PORT": 33,
+        "PIN": 32,
+        "bit": 2
+    },
+    {
+        "Pinout": "D24",
+        "micon'sport": "PA2",
+        "DDR": 34,
+        "PORT": 33,
+        "PIN": 32,
+        "bit": 4
+    },
+    {
+        "Pinout": "D25",
+        "micon'sport": "PA3",
+        "DDR": 34,
+        "PORT": 33,
+        "PIN": 32,
+        "bit": 8
+    },
+    {
+        "Pinout": "D26",
+        "micon'sport": "PA4",
+        "DDR": 34,
+        "PORT": 33,
+        "PIN": 32,
+        "bit": 16
+    },
+    {
+        "Pinout": "D27",
+        "micon'sport": "PA5",
+        "DDR": 34,
+        "PORT": 33,
+        "PIN": 32,
+        "bit": 32
+    },
+    {
+        "Pinout": "D28",
+        "micon'sport": "PA6",
+        "DDR": 34,
+        "PORT": 33,
+        "PIN": 32,
+        "bit": 64
+    },
+    {
+        "Pinout": "D29",
+        "micon'sport": "PA7",
+        "DDR": 34,
+        "PORT": 33,
+        "PIN": 32,
+        "bit": 128
+    },
+    {
+        "Pinout": "D30",
+        "micon'sport": "PC7",
+        "DDR": 40,
+        "PORT": 39,
+        "PIN": 38,
+        "bit": 128
+    },
+    {
+        "Pinout": "D31",
+        "micon'sport": "PC6",
+        "DDR": 40,
+        "PORT": 39,
+        "PIN": 38,
+        "bit": 64
+    },
+    {
+        "Pinout": "D32",
+        "micon'sport": "PC5",
+        "DDR": 40,
+        "PORT": 39,
+        "PIN": 38,
+        "bit": 32
+    },
+    {
+        "Pinout": "D33",
+        "micon'sport": "PC4",
+        "DDR": 40,
+        "PORT": 39,
+        "PIN": 38,
+        "bit": 16
+    },
+    {
+        "Pinout": "D34",
+        "micon'sport": "PC3",
+        "DDR": 40,
+        "PORT": 39,
+        "PIN": 38,
+        "bit": 8
+    },
+    {
+        "Pinout": "D35",
+        "micon'sport": "PC2",
+        "DDR": 40,
+        "PORT": 39,
+        "PIN": 38,
+        "bit": 4
+    },
+    {
+        "Pinout": "D36",
+        "micon'sport": "PC1",
+        "DDR": 40,
+        "PORT": 39,
+        "PIN": 38,
+        "bit": 2
+    },
+    {
+        "Pinout": "D37",
+        "micon'sport": "PC0",
+        "DDR": 40,
+        "PORT": 39,
+        "PIN": 38,
+        "bit": 1
+    },
+    {
+        "Pinout": "D38",
+        "micon'sport": "PD7",
+        "DDR": 46,
+        "PORT": 45,
+        "PIN": 44,
+        "bit": 128
+    },
+    {
+        "Pinout": "D39",
+        "micon'sport": "PG2",
+        "DDR": 52,
+        "PORT": 51,
+        "PIN": 50,
+        "bit": 4
+    },
+    {
+        "Pinout": "D40",
+        "micon'sport": "PG1",
+        "DDR": 52,
+        "PORT": 51,
+        "PIN": 50,
+        "bit": 2
+    },
+    {
+        "Pinout": "D41",
+        "micon'sport": "PG0",
+        "DDR": 52,
+        "PORT": 51,
+        "PIN": 50,
+        "bit": 1
+    },
+    {
+        "Pinout": "D42",
+        "micon'sport": "PL7",
+        "DDR": 267,
+        "PORT": 266,
+        "PIN": 265,
+        "bit": 128
+    },
+    {
+        "Pinout": "D43",
+        "micon'sport": "PL6",
+        "DDR": 267,
+        "PORT": 266,
+        "PIN": 265,
+        "bit": 64
+    },
+    {
+        "Pinout": "D44",
+        "micon'sport": "PL5",
+        "DDR": 267,
+        "PORT": 266,
+        "PIN": 265,
+        "bit": 32
+    },
+    {
+        "Pinout": "D45",
+        "micon'sport": "PL4",
+        "DDR": 267,
+        "PORT": 266,
+        "PIN": 265,
+        "bit": 16
+    },
+    {
+        "Pinout": "D46",
+        "micon'sport": "PL3",
+        "DDR": 267,
+        "PORT": 266,
+        "PIN": 265,
+        "bit": 8
+    },
+    {
+        "Pinout": "D47",
+        "micon'sport": "PL2",
+        "DDR": 267,
+        "PORT": 266,
+        "PIN": 265,
+        "bit": 4
+    },
+    {
+        "Pinout": "D48",
+        "micon'sport": "PL1",
+        "DDR": 267,
+        "PORT": 266,
+        "PIN": 265,
+        "bit": 2
+    },
+    {
+        "Pinout": "D49",
+        "micon'sport": "PL0",
+        "DDR": 267,
+        "PORT": 266,
+        "PIN": 265,
+        "bit": 1
+    },
+    {
+        "Pinout": "D50",
+        "micon'sport": "PB3",
+        "DDR": 37,
+        "PORT": 36,
+        "PIN": 35,
+        "bit": 8
+    },
+    {
+        "Pinout": "D51",
+        "micon'sport": "PB2",
+        "DDR": 37,
+        "PORT": 36,
+        "PIN": 35,
+        "bit": 4
+    },
+    {
+        "Pinout": "D52",
+        "micon'sport": "PB1",
+        "DDR": 37,
+        "PORT": 36,
+        "PIN": 35,
+        "bit": 2
+    },
+    {
+        "Pinout": "D53",
+        "micon'sport": "PB2",
+        "DDR": 37,
+        "PORT": 36,
+        "PIN": 35,
+        "bit": 1
+    }
+]
+}
