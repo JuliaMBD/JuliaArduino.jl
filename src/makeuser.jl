@@ -2,8 +2,6 @@ module makeuser
     include("./JuliaArduino.jl")
 	using JuliaArduino
 
-    const LED_BUILTIN = pin(13) 
-    
     function blink() 
 		pinmode(LED_BUILTIN, OUTPUT)
 
@@ -14,5 +12,5 @@ module makeuser
 			delay(int(3000))
 		end
 	end
-	builddump(blink, Tuple{})
+	builddump(blink,Tuple{})
 end

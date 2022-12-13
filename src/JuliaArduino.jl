@@ -2,7 +2,7 @@ module JuliaArduino
 
     include("./gpio.jl")
     using .gpio
-    export Myint, volatile_store, digitalwrite, delay, HIGH, LOW, OUTPUT, builddump, pinmode, int, loop,pin, ppstr
+    export Myint, volatile_store, digitalwrite, delay, HIGH, LOW, OUTPUT, builddump, pinmode, int, loop,pin, ppstr, LED_BUILTIN
 
     const Myint = Int16
 
@@ -19,6 +19,7 @@ module JuliaArduino
     const HIGH = 0b00000001
     const OUTPUT = 0b00000001
     const LOW = 0b00000000
+    const LED_BUILTIN = pin(13) 
 
     function volatile_store(x::Ptr{UInt8}, v::UInt8)
             #return println("ok")    #debug
