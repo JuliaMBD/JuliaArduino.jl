@@ -1,8 +1,6 @@
-using JuliaArduino
-using Test
-
-@testset "JuliaArduino.jl" begin
-#=    # Write your tests here.
+module makeuser
+    include("./JuliaArduino.jl")
+	using JuliaArduino
 
     function blink() 
 		pinmode(LED_BUILTIN, OUTPUT)
@@ -14,7 +12,5 @@ using Test
 			delay(int(3000))
 		end
 	end
-	builddump(blink, Tuple{})
-    #blink_test=#
-    println("Hello")
+	builddump(blink,Tuple{})
 end
