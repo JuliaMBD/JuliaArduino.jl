@@ -7,7 +7,8 @@
             "PORT": 46,
             "DDR": 45,
             "PIN": 44,
-            "bit": 1
+            "bit": 1,
+            "name": 5
         },
         {
             "Pinout": "D1",
@@ -15,7 +16,8 @@
             "PORT": 46,
             "DDR": 45,
             "PIN": 44,
-            "bit": 2
+            "bit": 2,
+            "name": 5
         },
         {
             "Pinout": "D2",
@@ -23,7 +25,8 @@
             "PORT": 46,
             "DDR": 45,
             "PIN": 44,
-            "bit": 16
+            "bit": 16,
+            "name": 5
         },
         {
             "Pinout": "D3",
@@ -31,7 +34,8 @@
             "PORT": 46,
             "DDR": 45,
             "PIN": 44,
-            "bit": 32
+            "bit": 32,
+            "name": 5
         },
         {
             "Pinout": "D4",
@@ -39,7 +43,8 @@
             "PORT": 52,
             "DDR": 51,
             "PIN": 50,
-            "bit": 32
+            "bit": 32,
+            "name": 7
         },
         {
             "Pinout": "D5",
@@ -47,7 +52,8 @@
             "PORT": 46,
             "DDR": 45,
             "PIN": 44,
-            "bit": 8
+            "bit": 8,
+            "name": 5
         },
         {
             "Pinout": "D6",
@@ -55,7 +61,8 @@
             "PORT": 258,
             "DDR": 257,
             "PIN": 256,
-            "bit": 8
+            "bit": 8,
+            "name": 8
         },
         {
             "Pinout": "D7",
@@ -63,7 +70,8 @@
             "PORT": 258,
             "DDR": 257,
             "PIN": 256,
-            "bit": 16
+            "bit": 16,
+            "name": 8
         },
         {
             "Pinout": "D8",
@@ -71,7 +79,8 @@
             "PORT": 258,
             "DDR": 257,
             "PIN": 256,
-            "bit": 32
+            "bit": 32,
+            "name": 8
         },
         {
             "Pinout": "D9",
@@ -79,7 +88,8 @@
             "PORT": 258,
             "DDR": 257,
             "PIN": 256,
-            "bit": 64
+            "bit": 64,
+            "name": 8
         },
         {
             "Pinout": "D10",
@@ -87,7 +97,8 @@
             "PORT": 37,
             "DDR": 36,
             "PIN": 35,
-            "bit": 16
+            "bit": 16,
+            "name": 2
         },
         {
             "Pinout": "D11",
@@ -95,7 +106,8 @@
             "PORT": 37,
             "DDR": 36,
             "PIN": 35,
-            "bit": 32
+            "bit": 32,
+            "name": 2
         },
         {
             "Pinout": "D12",
@@ -103,7 +115,8 @@
             "PORT": 37,
             "DDR": 36,
             "PIN": 35,
-            "bit": 64
+            "bit": 64,
+            "name": 2
         },
         {
             "Pinout": "D13",
@@ -111,7 +124,8 @@
             "PORT": 37,
             "DDR": 36,
             "PIN": 35,
-            "bit": 128
+            "bit": 128,
+            "name": 2
         },
         {
             "Pinout": "D14",
@@ -119,7 +133,8 @@
             "PORT": 261,
             "DDR": 260,
             "PIN": 259,
-            "bit": 2
+            "bit": 2,
+            "name": 10
         },
         {
             "Pinout": "D15",
@@ -127,7 +142,8 @@
             "PORT": 261,
             "DDR": 260,
             "PIN": 259,
-            "bit": 1
+            "bit": 1,
+            "name": 10
         },
         {
             "Pinout": "D16",
@@ -135,7 +151,8 @@
             "PORT": 258,
             "DDR": 257,
             "PIN": 256,
-            "bit": 2
+            "bit": 2,
+            "name": 8
         },
         {
             "Pinout": "D17",
@@ -143,7 +160,8 @@
             "PORT": 258,
             "DDR": 257,
             "PIN": 256,
-            "bit": 1
+            "bit": 1,
+            "name": 8
         },
         {
             "Pinout": "D18",
@@ -151,7 +169,8 @@
             "PORT": 43,
             "DDR": 42,
             "PIN": 41,
-            "bit": 8
+            "bit": 8,
+            "name": 4
         },
         {
             "Pinout": "D19",
@@ -159,7 +178,8 @@
             "PORT": 43,
             "DDR": 42,
             "PIN": 41,
-            "bit": 4
+            "bit": 4,
+            "name": 4
         },
         {
             "Pinout": "D20",
@@ -167,7 +187,8 @@
             "PORT": 43,
             "DDR": 42,
             "PIN": 41,
-            "bit": 2
+            "bit": 2,
+            "name": 4
         },
         {
             "Pinout": "D21",
@@ -175,7 +196,8 @@
             "PORT": 43,
             "DDR": 42,
             "PIN": 41,
-            "bit": 1
+            "bit": 1,
+            "name": 4
         },
         {
             "Pinout": "D22",
@@ -183,7 +205,8 @@
             "PORT": 34,
             "DDR": 33,
             "PIN": 32,
-            "bit": 1
+            "bit": 1,
+            "name": 1
         },
         {
             "Pinout": "D23",
@@ -191,7 +214,8 @@
             "PORT": 34,
             "DDR": 33,
             "PIN": 32,
-            "bit": 2
+            "bit": 2,
+            "name": 1
         },
         {
             "Pinout": "D24",
@@ -199,7 +223,8 @@
             "PORT": 34,
             "DDR": 33,
             "PIN": 32,
-            "bit": 4
+            "bit": 4,
+            "name": 1
         },
         {
             "Pinout": "D25",
@@ -207,7 +232,8 @@
             "PORT": 34,
             "DDR": 33,
             "PIN": 32,
-            "bit": 8
+            "bit": 8,
+            "name": 1
         },
         {
             "Pinout": "D26",
@@ -215,7 +241,8 @@
             "PORT": 34,
             "DDR": 33,
             "PIN": 32,
-            "bit": 16
+            "bit": 16,
+            "name": 1
         },
         {
             "Pinout": "D27",
@@ -223,7 +250,8 @@
             "PORT": 34,
             "DDR": 33,
             "PIN": 32,
-            "bit": 32
+            "bit": 32,
+            "name": 1
         },
         {
             "Pinout": "D28",
@@ -231,7 +259,8 @@
             "PORT": 34,
             "DDR": 33,
             "PIN": 32,
-            "bit": 64
+            "bit": 64,
+            "name": 1
         },
         {
             "Pinout": "D29",
@@ -239,7 +268,8 @@
             "PORT": 34,
             "DDR": 33,
             "PIN": 32,
-            "bit": 128
+            "bit": 128,
+            "name": 1
         },
         {
             "Pinout": "D30",
@@ -247,7 +277,8 @@
             "PORT": 40,
             "DDR": 39,
             "PIN": 38,
-            "bit": 128
+            "bit": 128,
+            "name": 3
         },
         {
             "Pinout": "D31",
@@ -255,7 +286,8 @@
             "PORT": 40,
             "DDR": 39,
             "PIN": 38,
-            "bit": 64
+            "bit": 64,
+            "name": 3
         },
         {
             "Pinout": "D32",
@@ -263,7 +295,8 @@
             "PORT": 40,
             "DDR": 39,
             "PIN": 38,
-            "bit": 32
+            "bit": 32,
+            "name": 3
         },
         {
             "Pinout": "D33",
@@ -271,7 +304,8 @@
             "PORT": 40,
             "DDR": 39,
             "PIN": 38,
-            "bit": 16
+            "bit": 16,
+            "name": 3
         },
         {
             "Pinout": "D34",
@@ -279,7 +313,8 @@
             "PORT": 40,
             "DDR": 39,
             "PIN": 38,
-            "bit": 8
+            "bit": 8,
+            "name": 3
         },
         {
             "Pinout": "D35",
@@ -287,7 +322,8 @@
             "PORT": 40,
             "DDR": 39,
             "PIN": 38,
-            "bit": 4
+            "bit": 4,
+            "name": 3
         },
         {
             "Pinout": "D36",
@@ -295,7 +331,8 @@
             "PORT": 40,
             "DDR": 39,
             "PIN": 38,
-            "bit": 2
+            "bit": 2,
+            "name": 3
         },
         {
             "Pinout": "D37",
@@ -303,7 +340,8 @@
             "PORT": 40,
             "DDR": 39,
             "PIN": 38,
-            "bit": 1
+            "bit": 1,
+            "name": 3
         },
         {
             "Pinout": "D38",
@@ -311,7 +349,8 @@
             "PORT": 46,
             "DDR": 45,
             "PIN": 44,
-            "bit": 128
+            "bit": 128,
+            "name": 4
         },
         {
             "Pinout": "D39",
@@ -319,7 +358,8 @@
             "PORT": 52,
             "DDR": 51,
             "PIN": 50,
-            "bit": 4
+            "bit": 4,
+            "name": 7
         },
         {
             "Pinout": "D40",
@@ -327,7 +367,8 @@
             "PORT": 52,
             "DDR": 51,
             "PIN": 50,
-            "bit": 2
+            "bit": 2,
+            "name": 7
         },
         {
             "Pinout": "D41",
@@ -335,7 +376,8 @@
             "PORT": 52,
             "DDR": 51,
             "PIN": 50,
-            "bit": 1
+            "bit": 1,
+            "name": 7
         },
         {
             "Pinout": "D42",
@@ -343,7 +385,8 @@
             "PORT": 267,
             "DDR": 266,
             "PIN": 265,
-            "bit": 128
+            "bit": 128,
+            "name": 12
         },
         {
             "Pinout": "D43",
@@ -351,7 +394,8 @@
             "PORT": 267,
             "DDR": 266,
             "PIN": 265,
-            "bit": 64
+            "bit": 64,
+            "name": 12
         },
         {
             "Pinout": "D44",
@@ -359,7 +403,8 @@
             "PORT": 267,
             "DDR": 266,
             "PIN": 265,
-            "bit": 32
+            "bit": 32,
+            "name": 12
         },
         {
             "Pinout": "D45",
@@ -367,7 +412,8 @@
             "PORT": 267,
             "DDR": 266,
             "PIN": 265,
-            "bit": 16
+            "bit": 16,
+            "name": 12
         },
         {
             "Pinout": "D46",
@@ -375,7 +421,8 @@
             "PORT": 267,
             "DDR": 266,
             "PIN": 265,
-            "bit": 8
+            "bit": 8,
+            "name": 12
         },
         {
             "Pinout": "D47",
@@ -383,7 +430,8 @@
             "PORT": 267,
             "DDR": 266,
             "PIN": 265,
-            "bit": 4
+            "bit": 4,
+            "name": 12
         },
         {
             "Pinout": "D48",
@@ -391,7 +439,8 @@
             "PORT": 267,
             "DDR": 266,
             "PIN": 265,
-            "bit": 2
+            "bit": 2,
+            "name": 12
         },
         {
             "Pinout": "D49",
@@ -399,7 +448,8 @@
             "PORT": 267,
             "DDR": 266,
             "PIN": 265,
-            "bit": 1
+            "bit": 1,
+            "name": 12
         },
         {
             "Pinout": "D50",
@@ -407,7 +457,8 @@
             "PORT": 37,
             "DDR": 36,
             "PIN": 35,
-            "bit": 8
+            "bit": 8,
+            "name": 2
         },
         {
             "Pinout": "D51",
@@ -415,7 +466,8 @@
             "PORT": 37,
             "DDR": 36,
             "PIN": 35,
-            "bit": 4
+            "bit": 4,
+            "name": 2
         },
         {
             "Pinout": "D52",
@@ -423,7 +475,8 @@
             "PORT": 37,
             "DDR": 36,
             "PIN": 35,
-            "bit": 2
+            "bit": 2,
+            "name": 2
         },
         {
             "Pinout": "D53",
@@ -431,7 +484,8 @@
             "PORT": 37,
             "DDR": 36,
             "PIN": 35,
-            "bit": 1
+            "bit": 1,
+            "name": 2
         }
     ]
     }

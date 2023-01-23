@@ -2,7 +2,7 @@ module JuliaArduino
 
     include("./gpio.jl")
     using .gpio
-    export Myint, volatile_store, digitalwrite, delay, HIGH, LOW, OUTPUT, builddump, pinmode, int, loop,pin, ppstr, LED_BUILTIN
+    export Myint, volatile_store, digitalwrite, delay, HIGH, LOW, OUTPUT, builddump, pinmode, int, loop,pin, ppstr, LED_BUILTIN, bitor
 
     const Myint = Int16
 
@@ -37,16 +37,19 @@ module JuliaArduino
     end
 
     function digitalwrite(P::ppstr, stm::UInt8)
-
+        #stm = bitor(P, 1)
         if stm == HIGH
             volatile_store(P.PORT, P.bit)
+            #volatile_store(P.DDR, P.bit)
         elseif stm == LOW
             volatile_store(P.PORT, stm)
+            #volatile_store(P.DDR, stm)
         end
     end
     
     function pinmode(P::ppstr, stm::UInt8)
-        volatile_store(P.DDR, P.bit)
+        #stm = bitor(P, 2)
+        volatile_store(P.DDR, UInt8(0b11111111))
     end
 
     function keep(x)
