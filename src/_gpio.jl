@@ -6,11 +6,12 @@ const HIGH = PinState(0x01)
 struct GPIO
     DDR::Ptr{UInt8}
     PORT::Ptr{UInt8}
+    PIN::Ptr{UInt8}
     bit::UInt8
 
-    function GPIO(ddr::Ptr{UInt8}, port::Ptr{UInt8}, bit::Int)
-        b = 0x1 << (bit-1)
-        new(ddr, port, b)
+    function GPIO(ddr::Ptr{UInt8}, port::Ptr{UInt8}, pin::Ptr{UInt8}, bit::Int)
+        b = 0x1 << bit
+        new(ddr, port, pin, b)
     end
 end
 

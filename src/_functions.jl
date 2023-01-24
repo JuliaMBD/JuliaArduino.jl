@@ -36,11 +36,13 @@ end
 Read a state (high or low) of a given GPIO.
 """
 function digitalRead(pin::GPIO)
-    s = volatile_load(pin.PORT)
-    if s & pin.bit != 0x0
-        return HIGH
+    d = volatile_load(pin.DDR)
+    if d & pin.bit == 0x1 ## OUTPUT
+        s = volatile_load(pin.PORT)
+        (s & pin.bit != 0x0) ? HIGH : LOW
     else
-        return LOW
+        s = volatile_load(pin.PIN)
+        (s & pin.bit != 0x0) ? HIGH : LOW
     end
 end
 

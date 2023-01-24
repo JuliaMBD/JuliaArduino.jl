@@ -1,0 +1,30 @@
+
+{
+    "Type": "Mega2560",
+    "Registers": {
+        "PORTA": "0x02", "DDRA": "0x01", "PINA": "0x00",
+        "PORTB": "0x02", "DDRB": "0x01", "PINB": "0x00",
+        "PORTC": "0x02", "DDRC": "0x01", "PINC": "0x00",
+        "PORTD": "0x02", "DDRD": "0x01", "PIND": "0x00",
+        "PORTE": "0x02", "DDRE": "0x01", "PINE": "0x00",
+        "PORTF": "0x02", "DDRF": "0x01", "PINF": "0x00",
+        "PORTG": "0x02", "DDRG": "0x01", "PING": "0x00",
+        "PORTH": "0x02", "DDRH": "0x01", "PINH": "0x00",
+        "PORTJ": "0x02", "DDRJ": "0x01", "PINJ": "0x00",
+        "PORTK": "0x02", "DDRK": "0x01", "PINK": "0x00",
+        "PORTL": "0x02", "DDRL": "0x01", "PINL": "0x00"
+    },
+    "GPIO": {
+        "D0": {"DDR": "DDRE", "PORT": "PORTE", "PIN": "PINE", "bit": 0},
+        "D1": {"DDR": "DDRE", "PORT": "PORTE", "PIN": "PINE", "bit": 1},
+        "D2": {"DDR": "DDRE", "PORT": "PORTE", "PIN": "PINE", "bit": 4},
+        "D3": {"DDR": "DDRE", "PORT": "PORTE", "PIN": "PINE", "bit": 5},
+        "D4": {"DDR": "DDRG", "PORT": "PORTG", "PIN": "PING", "bit": 5},
+        "D5": {"DDR": "DDRE", "PORT": "PORTE", "PIN": "PINE", "bit": 3},
+        "D6": {"DDR": "DDRH", "PORT": "PORTH", "PIN": "PINH", "bit": 3},
+        "D7": {"DDR": "DDRH", "PORT": "PORTH", "PIN": "PINH", "bit": 4},
+        "D8": {"DDR": "DDRH", "PORT": "PORTH", "PIN": "PINH", "bit": 5},
+        "D9": {"DDR": "DDRH", "PORT": "PORTH", "PIN": "PINH", "bit": 6}
+    }
+}
+
