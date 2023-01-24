@@ -1,20 +1,25 @@
 using JuliaArduino
 using Test
 
-@testset "JuliaArduino.jl" begin
-#=    # Write your tests here.
+module test1
+	using JuliaArduino
+	@loadPinConfig "../arduino.json"
 
-    function blink() 
-		pinmode(LED_BUILTIN, OUTPUT)
+	const LED = D0
+
+	function blink()
+		pinMode(LED, OUTPUT)
 
 		while true
-			digitalwrite(LED_BUILTIN, HIGH)
-			delay(int(3000))
-			digitalwrite(LED_BUILTIN, LOW)
-			delay(int(3000))
+			delay(Int16(3000))
+			digitalWrite(LED, HIGH)
+			delay(Int16(3000))
+			digitalWrite(LED, LOW)
 		end
 	end
-	builddump(blink, Tuple{})
-    #blink_test=#
-    println("Hello")
+end
+
+@testset "JuliaArduino.jl" begin
+	target = Arduino("avr6", "")
+	obj = build(test1.blink, Tuple{}, target=target)
 end
