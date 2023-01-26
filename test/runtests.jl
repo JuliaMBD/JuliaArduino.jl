@@ -20,6 +20,6 @@ module test1
 end
 
 @testset "JuliaArduino.jl" begin
-	target = Arduino("avr6", "")
+	target = Arduino("atmega2560", "")
 	obj = build(test1.blink, Tuple{}, target=target)
 end
