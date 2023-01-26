@@ -2,7 +2,7 @@ using JuliaArduino
 
 module RGB
 	using JuliaArduino
-	@loadPinConfig "arduino.json"
+	@loadPinConfig "../arduino.json"
 
     const R = D6
     const G = D5
