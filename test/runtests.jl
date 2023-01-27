@@ -3,7 +3,7 @@ using Test
 
 module test1
 	using JuliaArduino
-	@loadPinConfig "../arduino.json"
+	@loadPinConfig "../atmega2560.json"
 
 	const LED = D0
 
@@ -20,6 +20,6 @@ module test1
 end
 
 @testset "JuliaArduino.jl" begin
-	target = Arduino("atmega2560", "")
+	target = Arduino(test1.MMCU, "")
 	obj = build(test1.blink, Tuple{}, target=target)
 end

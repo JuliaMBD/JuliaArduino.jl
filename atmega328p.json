@@ -1,0 +1,25 @@
+
+{
+    "MMCU": "atmega328p",
+    "Registers": {
+        "PORTB": "0x25", "DDRB": "0x24", "PINB": "0x23",
+        "PORTC": "0x28", "DDRC": "0x27", "PINC": "0x26",
+        "PORTD": "0x2B", "DDRD": "0x2A", "PIND": "0x29"
+    },
+    "GPIO": {
+        "D0": {"DDR": "DDRD", "PORT": "PORTD", "PIN": "PIND", "bit": 0},
+        "D1": {"DDR": "DDRD", "PORT": "PORTD", "PIN": "PIND", "bit": 1},
+        "D2": {"DDR": "DDRD", "PORT": "PORTD", "PIN": "PIND", "bit": 2},
+        "D3": {"DDR": "DDRD", "PORT": "PORTD", "PIN": "PIND", "bit": 3},
+        "D4": {"DDR": "DDRD", "PORT": "PORTD", "PIN": "PIND", "bit": 4},
+        "D5": {"DDR": "DDRD", "PORT": "PORTD", "PIN": "PIND", "bit": 5},
+        "D6": {"DDR": "DDRD", "PORT": "PORTD", "PIN": "PIND", "bit": 6},
+        "D7": {"DDR": "DDRD", "PORT": "PORTD", "PIN": "PIND", "bit": 7},
+        "D8": {"DDR": "DDRB", "PORT": "PORTB", "PIN": "PINB", "bit": 0},
+        "D9": {"DDR": "DDRB", "PORT": "PORTB", "PIN": "PINB", "bit": 1},
+        "D10": {"DDR": "DDRB", "PORT": "PORTB", "PIN": "PINB", "bit": 2},
+        "D11": {"DDR": "DDRB", "PORT": "PORTB", "PIN": "PINB", "bit": 3},
+        "D12": {"DDR": "DDRB", "PORT": "PORTB", "PIN": "PINB", "bit": 4},
+        "D13": {"DDR": "DDRB", "PORT": "PORTB", "PIN": "PINB", "bit": 5}
+    }
+}

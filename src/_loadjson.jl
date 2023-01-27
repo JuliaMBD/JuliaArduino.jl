@@ -5,6 +5,8 @@ using JSON
 function loadPinConfiguration(jsonfile)
     data = JSON.parsefile(jsonfile)
     expr = Expr[]
+    mmcu = data["MMCU"]
+    push!(expr, :(const MMCU = $mmcu))
     for (p,d) = data["GPIO"]
         local ddr::Ptr{UInt8}
         local port::Ptr{UInt8}
