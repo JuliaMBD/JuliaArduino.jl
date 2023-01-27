@@ -3,7 +3,7 @@ OBJ    = rgb.o
 MAINFN = julia_Main_RGB_main
 PORT   = /dev/ttyACM0
 
-MCU_TARGET = atmega2560
+MCU_TARGET = atmega328p
 
 CC      = avr-gcc
 OBJCOPY = avr-objcopy

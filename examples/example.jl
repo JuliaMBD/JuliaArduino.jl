@@ -13,12 +13,31 @@ module RGB
         pinMode(G, OUTPUT)
         pinMode(B, OUTPUT)
 
-        digitalWrite(R, HIGH)
+        digitalWrite(R, LOW)
         digitalWrite(G, LOW)
         digitalWrite(B, LOW)
 
         while true
-            delay(Int16(3000))
+            digitalWrite(R, HIGH)
+            for i = Int16(1):Int16(30)
+                delay(Int16(32760))
+            end
+            digitalWrite(G, HIGH)
+            for i = Int16(1):Int16(30)
+                delay(Int16(32760))
+            end
+            digitalWrite(B, HIGH)
+            for i = Int16(1):Int16(30)
+                delay(Int16(32760))
+            end
+            digitalWrite(R, LOW)
+            for i = Int16(1):Int16(30)
+                delay(Int16(32760))
+            end
+            digitalWrite(G, LOW)
+            for i = Int16(1):Int16(30)
+                delay(Int16(32760))
+            end
         end
         return 0
     end
