@@ -5,7 +5,7 @@ module test1
 	using JuliaArduino
 	@loadPinConfig "../atmega2560.json"
 
-	const LED = D0
+	const LED = D13
 
 	function blink()
 		pinMode(LED, OUTPUT)
