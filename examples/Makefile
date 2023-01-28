@@ -2,7 +2,6 @@ PROG   = rgb
 OBJ    = rgb.o
 MAINFN = julia_Main_RGB_main
 PORT   = /dev/ttyACM0
-
 MCU_TARGET = atmega328p
 
 CC      = avr-gcc
@@ -21,4 +20,4 @@ $(PROG).hex: $(PROG).elf
 	$(OBJCOPY) -j .text -j .data -O ihex $< $@
 
 flash: $(PROG).hex
-	$(AVRDUDE) -V -c arduino -p $(MCU_TARGET) -P $(PORT) -U flash:w:$(PROG).hex
+	$(AVRDUDE) -v -C ../avrdude.conf -c arduino -p $(MCU_TARGET) -P $(PORT) -D -U flash:w:$(PROG).hex:i
