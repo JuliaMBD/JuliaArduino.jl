@@ -1,6 +1,7 @@
 
 {
     "MMCU": "atmega328p",
+    "F_CPU": 16000000.0,
     "Registers": {
         "PORTB": "0x25", "DDRB": "0x24", "PINB": "0x23",
         "PORTC": "0x28", "DDRC": "0x27", "PINC": "0x26",

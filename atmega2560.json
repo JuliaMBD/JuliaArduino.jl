@@ -1,6 +1,7 @@
 
 {
     "MMCU": "atmega2560",
+    "F_CPU": 16000000.0,
     "Registers": {
         "PORTA": "0x22", "DDRA": "0x21", "PINA": "0x20",
         "PORTB": "0x25", "DDRB": "0x24", "PINB": "0x23",

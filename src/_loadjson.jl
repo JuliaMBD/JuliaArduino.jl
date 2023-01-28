@@ -6,7 +6,14 @@ function loadPinConfiguration(jsonfile)
     data = JSON.parsefile(jsonfile)
     expr = Expr[]
     mmcu = data["MMCU"]
+    fcpu = data["F_CPU"]
     push!(expr, :(const MMCU = $mmcu))
+    push!(expr, quote
+        macro delay(ms)
+            msec1 = UInt16($fcpu * 0.001)
+            :(busyloop(UInt16($ms), $msec1))
+        end
+    end)
     for (p,d) = data["GPIO"]
         local ddr::Ptr{UInt8}
         local port::Ptr{UInt8}

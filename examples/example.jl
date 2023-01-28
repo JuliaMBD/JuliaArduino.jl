@@ -22,19 +22,7 @@ module RGB
             for i = Int16(1):Int16(30)
                 delay(Int16(32760))
             end
-            digitalWrite(G, HIGH)
-            for i = Int16(1):Int16(30)
-                delay(Int16(32760))
-            end
-            digitalWrite(B, HIGH)
-            for i = Int16(1):Int16(30)
-                delay(Int16(32760))
-            end
             digitalWrite(R, LOW)
-            for i = Int16(1):Int16(30)
-                delay(Int16(32760))
-            end
-            digitalWrite(G, LOW)
             for i = Int16(1):Int16(30)
                 delay(Int16(32760))
             end

@@ -1,6 +1,6 @@
 export volatile_load, volatile_store!
 export pinMode, digitalRead, digitalWrite
-export delay
+export busyloop
 
 """
     volatile_store!(addr::Ptr{UInt8}, v::UInt8)
@@ -39,7 +39,7 @@ end
 
 Sleep for a given x
 """
-function keep(x::Int16)::Nothing
+function keep()::Nothing
     Base.llvmcall(
         """
         call void asm sideeffect "", "" ()
@@ -101,8 +101,21 @@ end
 
 Delay for x ms
 """
-function delay(ms::Int16)::Nothing
-    for y in Int16(1):ms
-        keep(y)
+function busyloop(x::UInt16, unit::UInt16)::Nothing
+    for _ = UInt16(1):x
+        for _ = UInt16(1):unit
+            keep()
+        end
     end
 end
+
+function delay_ms(ms::UInt16)
+    msec1 = UInt16(F_CPU * 0.001)
+    busyloop(ms, msec1)
+end
+
+# macro delay_ms(ms)
+#     global F_CPU
+#     msec1 = UInt16(F_CPU * 0.001)
+#     :(busyloop(UInt16($ms), $msec1))
+# end
