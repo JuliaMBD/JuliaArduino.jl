@@ -1,8 +1,6 @@
-/Manifest.toml
-/docs/build/
-/Project.toml
-/jl_blink.o
-/jl_blink.elf
-/jl_blink.hex
+Manifest.toml
 /sample
 .DS_Store
+*.o
+*.elf
+*.hex

@@ -1,14 +1,15 @@
 
 {
-    "Type": "Mega2560",
+    "MMCU": "atmega2560",
+    "F_CPU": 16000000.0,
     "Registers": {
-        "PORTA": "0x02", "DDRA": "0x01", "PINA": "0x00",
-        "PORTB": "0x05", "DDRB": "0x04", "PINB": "0x03",
-        "PORTC": "0x08", "DDRC": "0x07", "PINC": "0x06",
-        "PORTD": "0x0B", "DDRD": "0x0A", "PIND": "0x09",
-        "PORTE": "0x0E", "DDRE": "0x0D", "PINE": "0x0C",
-        "PORTF": "0x11", "DDRF": "0x10", "PINF": "0x0F",
-        "PORTG": "0x14", "DDRG": "0x13", "PING": "0x12",
+        "PORTA": "0x22", "DDRA": "0x21", "PINA": "0x20",
+        "PORTB": "0x25", "DDRB": "0x24", "PINB": "0x23",
+        "PORTC": "0x28", "DDRC": "0x27", "PINC": "0x26",
+        "PORTD": "0x2B", "DDRD": "0x2A", "PIND": "0x29",
+        "PORTE": "0x2E", "DDRE": "0x2D", "PINE": "0x2C",
+        "PORTF": "0x31", "DDRF": "0x30", "PINF": "0x2F",
+        "PORTG": "0x34", "DDRG": "0x33", "PING": "0x32",
         "PORTH": "0x102", "DDRH": "0x101", "PINH": "0x100",
         "PORTJ": "0x105", "DDRJ": "0x104", "PINJ": "0x103",
         "PORTK": "0x108", "DDRK": "0x107", "PINK": "0x106",

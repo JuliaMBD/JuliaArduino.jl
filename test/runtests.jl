@@ -3,7 +3,7 @@ using Test
 
 module test1
 	using JuliaArduino
-	@loadPinConfig "../arduino.json"
+	@loadPinConfig "../atmega2560.json"
 
 	const LED = D13
 
@@ -11,16 +11,45 @@ module test1
 		pinMode(LED, OUTPUT)
 
 		while true
-			delay(Int16(3000))
 			digitalWrite(LED, HIGH)
-			delay(Int16(3000))
 			digitalWrite(LED, LOW)
 		end
 	end
 end
 
-@testset "JuliaArduino.jl" begin
-	target = Arduino("atmega2560", "")
+module RGB
+	using JuliaArduino
+	@loadPinConfig "../atmega328p.json"
+
+    const R = D6
+    const G = D5
+    const B = D3
+    
+    function main()::Int8
+        pinMode(R, OUTPUT)
+        pinMode(G, OUTPUT)
+        pinMode(B, OUTPUT)
+
+        digitalWrite(R, LOW)
+        digitalWrite(G, LOW)
+        digitalWrite(B, LOW)
+
+        while true
+            digitalWrite(R, HIGH)
+            @delay(50)
+            digitalWrite(R, LOW)
+            @delay(20)
+        end
+        return 0
+    end
+end
+
+@testset "atmega2560" begin
+	target = Arduino(test1.MMCU, "")
 	obj = build(test1.blink, Tuple{}, target=target)
-	write("./blink.o",obj)
+end
+
+@testset "atmega328p" begin
+	target = Arduino(RGB.MMCU, "")
+	obj = build(RGB.main, Tuple{}, target=target)
 end
