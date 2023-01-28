@@ -97,9 +97,9 @@ function digitalWrite(pin::GPIO, v::PinState)::Nothing
 end
 
 """
-    delay(ms)
+    busyloop(x, unit)
 
-Delay for x ms
+Execute a busy loop for x * unit times
 """
 function busyloop(x::UInt16, unit::UInt16)::Nothing
     for _ = UInt16(1):x
