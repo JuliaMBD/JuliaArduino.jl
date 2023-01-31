@@ -51,17 +51,29 @@ function keep()::Nothing
 end
 
 """
-    pinMode(pin::GPIO, m::PinMode)
+    pinMode(pin::GPIO, m::AbstractPinMode)
 
 Set a given pinmode
 """
-function pinMode(pin::GPIO, m::PinMode)::Nothing
+function pinMode(pin::GPIO, m::OutputPinMode)::Nothing
     d = volatile_load(pin.DDR)
-    if m == OUTPUT
-        volatile_store!(pin.DDR, d | pin.bit)
-    elseif m == INPUT
-        volatile_store!(pin.DDR, d & ~pin.bit)
-    end
+    volatile_store!(pin.DDR, d | pin.bit)
+    nothing
+end
+
+function pinMode(pin::GPIO, m::InputPinMode)::Nothing
+    d = volatile_load(pin.DDR)
+    volatile_store!(pin.DDR, d & ~pin.bit)
+    s = volatile_load(pin.PORT)
+    volatile_store!(pin.PORT, s & ~pin.bit)
+    nothing
+end
+
+function pinMode(pin::GPIO, m::InputPullupPinMode)::Nothing
+    d = volatile_load(pin.DDR)
+    volatile_store!(pin.DDR, d & ~pin.bit)
+    s = volatile_load(pin.PORT)
+    volatile_store!(pin.PORT, s | pin.bit)
     nothing
 end
 

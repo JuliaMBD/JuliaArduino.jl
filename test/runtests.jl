@@ -17,6 +17,11 @@ module test1
 	end
 end
 
+@testset "atmega2560" begin
+	target = Arduino(test1.MMCU, "")
+	obj = build(test1.blink, Tuple{}, target=target)
+end
+
 module RGB
 	using JuliaArduino
 	@loadPinConfig "../atmega328p.json"
@@ -44,12 +49,24 @@ module RGB
     end
 end
 
-@testset "atmega2560" begin
-	target = Arduino(test1.MMCU, "")
-	obj = build(test1.blink, Tuple{}, target=target)
-end
-
 @testset "atmega328p" begin
 	target = Arduino(RGB.MMCU, "")
 	obj = build(RGB.main, Tuple{}, target=target)
+end
+
+module input1
+	using JuliaArduino
+	@loadPinConfig "../atmega328p.json"
+
+    const SW = D3
+    
+    function main()::Int8
+        pinMode(SW, INPUT)
+        return 0
+    end
+end
+
+@testset "input1" begin
+	target = Arduino(input1.MMCU, "")
+	obj = build(input1.main, Tuple{}, target=target)
 end
