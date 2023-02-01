@@ -58,10 +58,21 @@ Set a given pinmode
 function pinMode(pin::GPIO, m::PinMode)::Nothing
     d = volatile_load(pin.DDR)
     if m == OUTPUT
+        if PullupFlag == 1
+            PullupFlag = 0
+            s = volatile_load(pin.PORT)
+            volatile_store!(pin.PORT, s & ~pin.bit)
+        end
         volatile_store!(pin.DDR, d | pin.bit)
     elseif m == INPUT
+        if PullupFlag == 1
+            PullupFlag = 0
+            s = volatile_load(pin.PORT)
+            volatile_store!(pin.PORT, s & ~pin.bit)
+        end
         volatile_store!(pin.DDR, d & ~pin.bit)
     elseif m == INPUT_PULLUP
+        PullupFlag = 1
         volatile_store!(pin.DDR, d & ~pin.bit)
         s = volatile_load(pin.PORT)
         volatile_store!(pin.PORT, s | pin.bit)
