@@ -10,7 +10,7 @@ function loadPinConfiguration(jsonfile)
     push!(expr, :(const MMCU = $mmcu))
     push!(expr, quote
         macro delay(ms)
-            msec1 = UInt16($fcpu * 0.001)
+            msec1 = UInt16($fcpu * 0.00015)
             :(busyloop(UInt16($ms), $msec1))
         end
     end)
