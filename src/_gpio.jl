@@ -1,5 +1,6 @@
 export LOW, HIGH
 export INPUT, OUTPUT, INPUT_PULLUP
+export PullupON, PullupOFF
 export GPIO
 
 const PinMode = UInt8
