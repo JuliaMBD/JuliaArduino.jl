@@ -4,6 +4,7 @@ export GPIO
 
 const PinMode = UInt8
 const PinState = UInt8
+const PullupFlag = UInt8
 
 const LOW = PinState(0x00)
 const HIGH = PinState(0x01)
@@ -11,6 +12,9 @@ const HIGH = PinState(0x01)
 const INPUT = PinMode(0x00)
 const OUTPUT = PinMode(0x01)
 const INPUT_PULLUP = PinMode(0x02)
+
+const PullupON = PullupFlag(0x00)
+const PullupOFF = PullupFlag(0x01)
 
 struct GPIO
     DDR::Ptr{UInt8}
