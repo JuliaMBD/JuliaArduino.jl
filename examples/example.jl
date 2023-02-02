@@ -19,12 +19,9 @@ module RGB
 
         while true
             digitalWrite(R, HIGH)
-            for i = Int16(1):Int16(30)
-                delay(Int16(32760))
-            end
+            @delay(10000)
             digitalWrite(R, LOW)
-            for i = Int16(1):Int16(30)
-                delay(Int16(32760))
+            @delay(10000)
             end
         end
         return 0
