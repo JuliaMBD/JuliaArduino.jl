@@ -5,7 +5,6 @@ export GPIO
 
 const PinMode = UInt8
 const PinState = UInt8
-const PullupFlag = 0
 
 const LOW = PinState(0x00)
 const HIGH = PinState(0x01)
