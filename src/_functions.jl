@@ -1,6 +1,6 @@
-export volatile_load, volatile_store!
+#export volatile_load, volatile_store!
 export pinMode, digitalRead, digitalWrite
-export busyloop
+export busyloop, @delay_ms
 
 """
     volatile_store!(addr::Ptr{UInt8}, v::UInt8)
@@ -51,30 +51,66 @@ function keep()::Nothing
 end
 
 """
+   R |= x
+"""
+function equal!(addr::RegisterAddr, x::UInt8)::Nothing
+    volatile_store!(addr, x)
+end
+
+function andequal!(addr::RegisterAddr, x::UInt8)::Nothing
+    d = volatile_load(addr)
+    volatile_store!(addr, d & x)
+end
+
+function orequal!(addr::RegisterAddr, x::UInt8)::Nothing
+    d = volatile_load(addr)
+    volatile_store!(addr, d | x)
+end
+
+function equal!(r::Register, x::UInt8)::Nothing
+    equal!(get_addr(r), x)
+end
+
+function andequal!(r::Register, x::UInt8)::Nothing
+    andequal!(get_addr(r), x)
+end
+
+function orequal!(r::Register, x::UInt8)::Nothing
+    orequal!(get_addr(r), x)
+end
+
+function set!(b::RegisterBit)::Nothing
+    orequal!(get_addr(b), get_bitmask(b))
+end
+
+function reset!(b::RegisterBit)::Nothing
+    andequal!(get_addr(b), ~get_bitmask(b))
+end
+
+function isset(b::RegisterBit)::Bool
+    x = volatile_load(get_addr(b))
+    x & get_bitmask(b) != 0x0
+end
+
+"""
     pinMode(pin::GPIO, m::AbstractPinMode)
 
 Set a given pinmode
 """
-function pinMode(pin::GPIO, m::OutputPinMode)::Nothing
-    d = volatile_load(pin.DDR)
-    volatile_store!(pin.DDR, d | pin.bit)
-    nothing
+
+function pinMode(pin::AbstractGPIO, ::OutputPinMode)::Nothing
+    set!(pin.DDR)
+    reset!(pin.PORT)
 end
 
-function pinMode(pin::GPIO, m::InputPinMode)::Nothing
-    d = volatile_load(pin.DDR)
-    volatile_store!(pin.DDR, d & ~pin.bit)
-    s = volatile_load(pin.PORT)
-    volatile_store!(pin.PORT, s & ~pin.bit)
-    nothing
+function pinMode(pin::AbstractGPIO, ::InputPinMode)::Nothing
+    reset!(pin.DDR)
+    reset!(pin.PORT)
 end
 
-function pinMode(pin::GPIO, m::InputPullupPinMode)::Nothing
-    d = volatile_load(pin.DDR)
-    volatile_store!(pin.DDR, d & ~pin.bit)
-    s = volatile_load(pin.PORT)
-    volatile_store!(pin.PORT, s | pin.bit)
-    nothing
+function pinMode(pin::AbstractGPIO, ::InputPullupPinMode)::Nothing
+    reset!(pin.DDR)
+    set!(pin.PORT)
 end
 
 """
@@ -82,14 +118,11 @@ end
 
 Read a state (high or low) of a given GPIO.
 """
-function digitalRead(pin::GPIO)::PinState
-    d = volatile_load(pin.DDR)
-    if d & pin.bit == 0x1 ## OUTPUT
-        s = volatile_load(pin.PORT)
-        (s & pin.bit != 0x0) ? HIGH : LOW
+function digitalRead(pin::AbstractGPIO)::PinState
+    if isset(pin.DDR) ## OUTPUT
+        isset(pin.PORT) ? HIGH : LOW
     else
-        s = volatile_load(pin.PIN)
-        (s & pin.bit != 0x0) ? HIGH : LOW
+        isset(pin.PIN) ? HIGH : LOW
     end
 end
 
@@ -98,14 +131,37 @@ end
 
 Write a given pin state (high or low) to GPIO.
 """
-function digitalWrite(pin::GPIO, v::PinState)::Nothing
-    s = volatile_load(pin.PORT)
-    if v == HIGH
-        volatile_store!(pin.PORT, s | pin.bit)
+function digitalWrite(pin::DGPIO, x::PinState)::Nothing
+    if x == HIGH
+        set!(pin.PORT)
     else
-        volatile_store!(pin.PORT, s & ~pin.bit)
+        reset!(pin.PORT)
     end
-    nothing
+end
+
+function digitalWrite(pin::AGPIO, x::PinState)::Nothing
+    reset!(pin.TIMER) # reset pwm
+    if x == HIGH
+        set!(pin.PORT)
+    else
+        reset!(pin.PORT)
+    end
+end
+
+"""
+    analogWrite(pin::GPIO, val::UInt8)
+
+Write a given pin to GPIO.
+"""
+function analogWrite(pin::AGPIO, val::UInt8)::Nothing
+    if val == 0
+        digitalWrite(pin, LOW)
+    elseif val == 255
+        digitalWrite(pin, HIGH)
+    else
+        set!(pin.TIMER)
+        equal!(pin.COMPARE, val)
+    end
 end
 
 """
@@ -121,13 +177,3 @@ function busyloop(x::UInt16, unit::UInt16)::Nothing
     end
 end
 
-function delay_ms(ms::UInt16)
-    msec1 = UInt16(F_CPU * 0.001)
-    busyloop(ms, msec1)
-end
-
-# macro delay_ms(ms)
-#     global F_CPU
-#     msec1 = UInt16(F_CPU * 0.001)
-#     :(busyloop(UInt16($ms), $msec1))
-# end

@@ -1,41 +1,61 @@
-export @loadPinConfig
+export @config
 
 using JSON
 
-function loadPinConfiguration(jsonfile)
+"""
+    bits, resigters = loadregisters(json)
+
+Define registers and their pins from JSON data
+"""
+function loadregisters(json)
+    registers = Dict{String,Tuple{RegisterAddr,Vector{String}}}()
+    bits = Dict{String,Tuple{RegisterAddr,Int}}()
+    ## load register
+    for (label, register) = json["Registers"]
+        addr = parse(UInt64, register["addr"])
+        bitlabels = String[]
+        for (bitlabel, b) = register["bit"]
+            bits[bitlabel] = (addr, b)
+            push!(bitlabels, bitlabel)
+        end
+        registers[label] = (addr, bitlabels)
+    end
+    bits, registers
+end
+
+function loadconfiguration(jsonfile)
     data = JSON.parsefile(jsonfile)
-    expr = Expr[]
     mmcu = data["MMCU"]
     fcpu = data["F_CPU"]
+    bits, registers = loadregisters(data)
+    expr = Expr[]
+    for (label, config) = data["GPIO"]
+        pinlabel = Symbol(label)
+        addr, bit = bits[config["DDR"]]
+        ddrexpr = :(RegisterBit($addr, $bit))
+        addr, bit = bits[config["PORT"]]
+        portexpr =:(RegisterBit($addr, $bit))
+        addr, bit = bits[config["PIN"]]
+        pinexpr = :(RegisterBit($addr, $bit))
+        if haskey(config, "TIMER")
+            addr, bit = bits[config["TIMER"]]
+            timerexpr = :(RegisterBit($addr, $bit))
+            addr, _ = registers[config["COMPARE"]]
+            compareexpr = :(Register($addr))
+            push!(expr, :(const $pinlabel = AGPIO($ddrexpr, $portexpr, $pinexpr, $timerexpr, $compareexpr)))
+        else
+            push!(expr, :(const $pinlabel = DGPIO($ddrexpr, $portexpr, $pinexpr)))
+        end
+    end
     push!(expr, :(const MMCU = $mmcu))
     push!(expr, quote
-        macro delay(ms)
-            msec1 = UInt16($fcpu * 0.001)
-            :(busyloop(UInt16($ms), $msec1))
+        macro delay_ms(ms)
+            busyloop(UInt16(ms), $(UInt16(fcpu * 0.00015)))
         end
     end)
-    for (p,d) = data["GPIO"]
-        local ddr::Ptr{UInt8}
-        local port::Ptr{UInt8}
-        local pin::Ptr{UInt8}
-        local bit::Int
-        x = Symbol(p)
-        for (k,v) = d
-            if k == "DDR"
-                ddr = Ptr{UInt8}(parse(UInt64, data["Registers"][v]))
-            elseif k == "PORT"
-                port = Ptr{UInt8}(parse(UInt64, data["Registers"][v]))
-            elseif k == "PIN"
-                pin = Ptr{UInt8}(parse(UInt64, data["Registers"][v]))
-            elseif k == "bit"
-                bit = v
-            end
-        end
-        push!(expr, :(const $x = GPIO($ddr, $port, $pin, $bit)))
-    end
     Expr(:block, expr...)
 end
 
-macro loadPinConfig(fn)
-    esc(loadPinConfiguration(fn))
+macro config(fn)
+    esc(loadconfiguration(fn))
 end

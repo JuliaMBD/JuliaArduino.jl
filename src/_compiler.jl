@@ -16,7 +16,7 @@ struct Arduino <: GPUCompiler.AbstractCompilerTarget
 end
 
 GPUCompiler.llvm_triple(::Arduino) = "avr-unknown-unknown"
-GPUCompiler.runtime_slug(::GPUCompiler.CompilerJob{Arduino}) = "native_avr-jl_blink"
+GPUCompiler.runtime_slug(::GPUCompiler.CompilerJob{Arduino}) = "native_avr"
 
 struct ArduinoParams <: GPUCompiler.AbstractCompilerParams end
 
