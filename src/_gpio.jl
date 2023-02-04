@@ -1,6 +1,8 @@
 export LOW, HIGH
 export INPUT, OUTPUT, INPUT_PULLUP
-export DGPIO, AGPIO, Register, RegisterBit, RegisterAddr, RegisterMask
+export Register, RegisterBit, RegisterAddr, RegisterMask
+export Timer8, Timer16
+export DGPIO, AGPIO, AGPIO8, AGPIO16
 
 const PinState = UInt8
 const LOW = PinState(0x0)
@@ -41,9 +43,57 @@ get_addr(r::Register)::RegisterAddr = r.addr
 get_addr(b::RegisterBit)::RegisterAddr = b.addr
 get_bitmask(b::RegisterBit)::RegisterMask = b.bit
 
-abstract type AbstractGPIO end
+abstract type AbstractTimer end
 
-struct DGPIO <: AbstractGPIO
+struct Timer8 <: AbstractTimer
+    TCCRA::Register
+    TCCRB::Register
+    OCR::Register
+    WGM2::RegisterBit
+    WGM1::RegisterBit
+    WGM0::RegisterBit
+    CS2::RegisterBit
+    CS1::RegisterBit
+    CS0::RegisterBit
+    COM1::RegisterBit
+    COM0::RegisterBit
+
+    function Timer8(TCCRA::Register, TCCRB::Register, OCR::Register,
+        WGM2::RegisterBit, WGM1::RegisterBit, WGM0::RegisterBit,
+        CS2::RegisterBit, CS1::RegisterBit, CS0::RegisterBit,
+        COM1::RegisterBit, COM0::RegisterBit)
+        new(TCCRA, TCCRB, OCR, WGM2, WGM1, WGM0, CS2, CS1, CS0, COM1, COM0)
+    end
+end
+
+struct Timer16 <: AbstractTimer
+    TCCRA::Register
+    TCCRB::Register
+    OCRH::Register
+    OCRL::Register
+    WGM3::RegisterBit
+    WGM2::RegisterBit
+    WGM1::RegisterBit
+    WGM0::RegisterBit
+    CS2::RegisterBit
+    CS1::RegisterBit
+    CS0::RegisterBit
+    COM1::RegisterBit
+    COM0::RegisterBit
+
+    function Timer16(TCCRA::Register, TCCRB::Register, OCRH::Register, OCRL::Register,
+        WGM3::RegisterBit, WGM2::RegisterBit, WGM1::RegisterBit, WGM0::RegisterBit,
+        CS2::RegisterBit, CS1::RegisterBit, CS0::RegisterBit,
+        COM1::RegisterBit, COM0::RegisterBit)
+        new(TCCRA, TCCRB, OCRH, OCRL, WGM3, WGM2, WGM1, WGM0, CS2, CS1, CS0, COM1, COM0)
+    end
+end
+
+abstract type AbstractGPIO end
+abstract type AbstractDigitalGPIO <: AbstractGPIO end
+abstract type AbstractAnalogGPIO <: AbstractGPIO end
+
+struct DGPIO <: AbstractDigitalGPIO
     DDR::RegisterBit
     PORT::RegisterBit
     PIN::RegisterBit
@@ -53,14 +103,33 @@ struct DGPIO <: AbstractGPIO
     end
 end
 
-struct AGPIO <: AbstractGPIO
+struct AGPIO8 <: AbstractAnalogGPIO
     DDR::RegisterBit
     PORT::RegisterBit
     PIN::RegisterBit
-    TIMER::RegisterBit
-    COMPARE::Register
+    TIMER::Timer8
 
-    function AGPIO(ddr::RegisterBit, port::RegisterBit, pin::RegisterBit, timer::RegisterBit, compare::Register)
-        new(ddr, port, pin, timer, compare)
+    function AGPIO8(ddr::RegisterBit, port::RegisterBit, pin::RegisterBit, timer::Timer8)
+        new(ddr, port, pin, timer)
     end
 end
+
+struct AGPIO16 <: AbstractAnalogGPIO
+    DDR::RegisterBit
+    PORT::RegisterBit
+    PIN::RegisterBit
+    TIMER::Timer16
+
+    function AGPIO16(ddr::RegisterBit, port::RegisterBit, pin::RegisterBit, timer::Timer16)
+        new(ddr, port, pin, timer)
+    end
+end
+
+function AGPIO(ddr::RegisterBit, port::RegisterBit, pin::RegisterBit, timer::Timer8)
+    AGPIO8(ddr, port, pin, timer)
+end
+
+function AGPIO(ddr::RegisterBit, port::RegisterBit, pin::RegisterBit, timer::Timer16)
+    AGPIO16(ddr, port, pin, timer)
+end
+

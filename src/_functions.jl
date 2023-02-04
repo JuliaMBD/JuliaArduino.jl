@@ -1,5 +1,7 @@
-#export volatile_load, volatile_store!
-export pinMode, digitalRead, digitalWrite
+export volatile_load, volatile_store!, keep
+export set!, reset!
+export offPWM, onPWM, initTimer
+export pinMode, digitalRead, digitalWrite, analogWrite
 export busyloop, @delay_ms
 
 """
@@ -93,11 +95,91 @@ function isset(b::RegisterBit)::Bool
 end
 
 """
+    initTimer(timer)
+
+Initialize timer
+"""
+function initTimer(pin::AGPIO8)::Nothing
+    initTimer(pin.TIMER)
+end
+
+function initTimer(pin::AGPIO16)::Nothing
+    initTimer(pin.TIMER)
+end
+
+function resetTimer(timer::AbstractTimer)::Nothing
+    volatile_store!(get_addr(timer.TCCRA), 0x00)
+    volatile_store!(get_addr(timer.TCCRB), 0x00)
+end
+
+function setWGM(timer::Timer8, mode::UInt8)::Nothing
+    m = 0b00000011
+    x = volatile_load(get_addr(timer.TCCRA))
+    volatile_store!(get_addr(timer.TCCRA), (x & ~m) | (mode & m))
+    m = 0b00000100
+    x = volatile_load(get_addr(timer.TCCRB))
+    volatile_store!(get_addr(timer.TCCRB), (x & ~(m << 1)) | ((mode & m) << 1)) 
+end
+
+function setWGM(timer::Timer8, mode::UInt8)::Nothing
+    m = 0b00000011
+    x = volatile_load(get_addr(timer.TCCRA))
+    volatile_store!(get_addr(timer.TCCRA), (x & ~m) | (mode & m))
+    m = 0b00001100
+    x = volatile_load(get_addr(timer.TCCRB))
+    volatile_store!(get_addr(timer.TCCRB), (x & ~(m << 1)) | ((mode & m) << 1)) 
+end
+
+function setCS(timer::AbstractTimer, mode::UInt8)::Nothing
+    x = volatile_load(get_addr(timer.TCCRB))
+    volatile_store!(get_addr(timer.TCCRB), (x & 0x07) | mode)
+end
+
+function initTimer(timer::Timer8)::Nothing
+    resetTimer(timer)
+    ## fast pwm
+    setWGM(timer, 0b011)
+    ## divide 64
+    setCS(timer, 0b011)
+end
+
+function initTimer(timer::Timer16)::Nothing
+    resetTimer(timer)
+    ## fast pwm
+    setWGM(timer, 0b0001)
+    ## divide 64
+    setCS(timer, 0b011)
+end
+
+"""
+    onPWM(timer, x)
+
+Set PWM with x (0 - 255)
+"""
+function onPWM(timer::Timer8, x::UInt8)::Nothing
+    set!(timer.COM1)
+    equal!(timer.OCR, x)
+end
+
+function onPWM(timer::Timer16, x::UInt8)::Nothing
+    set!(timer.COM1)
+    equal!(timer.OCRL, x)
+end
+
+"""
+    offPWM(timer, x)
+
+Set PWM with x (0 - 255)
+"""
+function offPWM(timer::AbstractTimer)::Nothing
+    reset!(timer.COM1)
+end
+
+"""
     pinMode(pin::GPIO, m::AbstractPinMode)
 
 Set a given pinmode
 """
-
 function pinMode(pin::AbstractGPIO, ::OutputPinMode)::Nothing
     set!(pin.DDR)
     reset!(pin.PORT)
@@ -131,7 +213,7 @@ end
 
 Write a given pin state (high or low) to GPIO.
 """
-function digitalWrite(pin::DGPIO, x::PinState)::Nothing
+function digitalWrite(pin::AbstractDigitalGPIO, x::PinState)::Nothing
     if x == HIGH
         set!(pin.PORT)
     else
@@ -139,8 +221,8 @@ function digitalWrite(pin::DGPIO, x::PinState)::Nothing
     end
 end
 
-function digitalWrite(pin::AGPIO, x::PinState)::Nothing
-    reset!(pin.TIMER) # reset pwm
+function digitalWrite(pin::AbstractAnalogGPIO, x::PinState)::Nothing
+    # offPWM(pin.TIMER) # reset pwm
     if x == HIGH
         set!(pin.PORT)
     else
@@ -153,14 +235,13 @@ end
 
 Write a given pin to GPIO.
 """
-function analogWrite(pin::AGPIO, val::UInt8)::Nothing
+function analogWrite(pin::AbstractAnalogGPIO, val::UInt8)::Nothing
     if val == 0
         digitalWrite(pin, LOW)
-    elseif val == 255
-        digitalWrite(pin, HIGH)
+    # elseif val == 255
+    #     digitalWrite(pin, HIGH)
     else
-        set!(pin.TIMER)
-        equal!(pin.COMPARE, val)
+        onPWM(pin.TIMER, val)
     end
 end
 
@@ -170,8 +251,8 @@ end
 Execute a busy loop for x * unit times
 """
 function busyloop(x::UInt16, unit::UInt16)::Nothing
-    for _ = UInt16(1):x
-        for _ = UInt16(1):unit
+    for i = UInt16(1):x
+        for j = UInt16(1):unit
             keep()
         end
     end

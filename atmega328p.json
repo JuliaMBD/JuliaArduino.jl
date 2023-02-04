@@ -13,10 +13,10 @@
       "DDRD": {"addr": "0x2A", "bit": {"DDRD7": 7, "DDRD6": 6, "DDRD5": 5, "DDRD4": 4, "DDRD3": 3, "DDRD2": 2, "DDRD1": 1, "DDRD0": 0}},
       "PIND": {"addr": "0x29", "bit": {"PIND7": 7, "PIND6": 6, "PIND5": 5, "PIND4": 4, "PIND3": 3, "PIND2": 2, "PIND1": 1, "PIND0": 0}},
       "TCCR0A": {"addr": "0x44", "bit": {"COM0A1": 7, "COM0A0": 6, "COM0B1": 5, "COM0B0": 4, "WGM01": 1, "WGM00": 0}},
-      "TCCR1A": {"addr": "0x80", "bit": {"COM1A1": 7, "COM1A0": 6, "COM1B1": 5, "COM1B0": 4, "WGM11": 1, "WGM10": 0}},
-      "TCCR2A": {"addr": "0xB0", "bit": {"COM2A1": 7, "COM2A0": 6, "COM2B1": 5, "COM2B0": 4, "WGM21": 1, "WGM20": 0}},
       "TCCR0B": {"addr": "0x45", "bit": {"FOC0A": 7, "FOC0B": 6, "WGM02": 3, "CS02": 2, "CS01": 1, "CS00": 0}},
+      "TCCR1A": {"addr": "0x80", "bit": {"COM1A1": 7, "COM1A0": 6, "COM1B1": 5, "COM1B0": 4, "WGM11": 1, "WGM10": 0}},
       "TCCR1B": {"addr": "0x81", "bit": {"ICNC1": 7, "ICES2": 6, "WGM13": 4, "WGM12": 3, "CS12": 2, "CS11": 1, "CS10": 0}},
+      "TCCR2A": {"addr": "0xB0", "bit": {"COM2A1": 7, "COM2A0": 6, "COM2B1": 5, "COM2B0": 4, "WGM21": 1, "WGM20": 0}},
       "TCCR2B": {"addr": "0xB1", "bit": {"FOC2A": 7, "FOC2B": 6, "WGM22": 3, "CS22": 2, "CS21": 1, "CS20": 0}},
       "OCR0A": {"addr": "0x47", "bit": {}},
       "OCR0B": {"addr": "0x48", "bit": {}},
@@ -24,8 +24,6 @@
       "OCR1AL": {"addr": "0x88", "bit": {}},
       "OCR1BH": {"addr": "0x8B", "bit": {}},
       "OCR1BL": {"addr": "0x8A", "bit": {}},
-      "OCR1A": {"addr": "0x88", "bit": {}},
-      "OCR1B": {"addr": "0x8A", "bit": {}},
       "OCR2A": {"addr": "0xB3", "bit": {}},
       "OCR2B": {"addr": "0xB4", "bit": {}}
    },
@@ -33,16 +31,60 @@
       "D0": {"DDR": "DDRD0", "PORT": "PD0", "PIN": "PIND0"},
       "D1": {"DDR": "DDRD1", "PORT": "PD1", "PIN": "PIND1"},
       "D2": {"DDR": "DDRD2", "PORT": "PD2", "PIN": "PIND2"},
-      "D3": {"DDR": "DDRD3", "PORT": "PD3", "PIN": "PIND3", "TIMER": "COM2B1", "COMPARE": "OCR2B"},
+      "D3": {"DDR": "DDRD3", "PORT": "PD3", "PIN": "PIND3", "TIMER": "TIMER2B"},
       "D4": {"DDR": "DDRD4", "PORT": "PD4", "PIN": "PIND4"},
-      "D5": {"DDR": "DDRD5", "PORT": "PD5", "PIN": "PIND5", "TIMER": "COM0B1", "COMPARE": "OCR0B"},
-      "D6": {"DDR": "DDRD6", "PORT": "PD6", "PIN": "PIND6", "TIMER": "COM0A1", "COMPARE": "OCR0A"},
+      "D5": {"DDR": "DDRD5", "PORT": "PD5", "PIN": "PIND5", "TIMER": "TIMER0B"},
+      "D6": {"DDR": "DDRD6", "PORT": "PD6", "PIN": "PIND6", "TIMER": "TIMER0A"},
       "D7": {"DDR": "DDRD7", "PORT": "PD7", "PIN": "PIND7"},
       "D8": {"DDR": "DDRB0", "PORT": "PB0", "PIN": "PINB0"},
-      "D9": {"DDR": "DDRB1", "PORT": "PB1", "PIN": "PINB1", "TIMER": "COM1A1", "COMPARE": "OCR1A"},
-      "D10": {"DDR": "DDRB2", "PORT": "PB2", "PIN": "PINB2", "TIMER": "COM1B1", "COMPARE": "OCR1B"},
-      "D11": {"DDR": "DDRB3", "PORT": "PB3", "PIN": "PINB3", "TIMER": "COM2A1", "COMPARE": "OCR2A"},
+      "D9": {"DDR": "DDRB1", "PORT": "PB1", "PIN": "PINB1", "TIMER": "TIMER1A"},
+      "D10": {"DDR": "DDRB2", "PORT": "PB2", "PIN": "PINB2", "TIMER": "TIMER1B"},
+      "D11": {"DDR": "DDRB3", "PORT": "PB3", "PIN": "PINB3", "TIMER": "TIMER2A"},
       "D12": {"DDR": "DDRB4", "PORT": "PB4", "PIN": "PINB4"},
       "D13": {"DDR": "DDRB5", "PORT": "PB5", "PIN": "PINB5"}
+   },
+   "Timers": {
+      "TIMER0A": {
+         "Registers": ["TCCR0A", "TCCR0B"],
+         "Wave": ["WGM22", "WGM21", "WGM20"],
+         "Clock": ["CS02", "CS01", "CS00"],
+         "Control": ["COM0A1", "COM0A0"],
+         "OCR": ["OCR0A"]
+      },
+      "TIMER0B": {
+         "Registers": ["TCCR0A", "TCCR0B"],
+         "Wave": ["WGM22", "WGM21", "WGM20"],
+         "Clock": ["CS02", "CS01", "CS00"],
+         "Control": ["COM0B1", "COM0B0"],
+         "OCR": ["OCR0B"]
+      },
+      "TIMER1A": {
+         "Registers": ["TCCR1A", "TCCR1B"],
+         "Wave": ["WGM13", "WGM12", "WGM11", "WGM10"],
+         "Clock": ["CS12", "CS11", "CS10"],
+         "Control": ["COM1A1", "COM1A0"],
+         "OCR": ["OCR1AH", "OCR1AL"]
+      },
+      "TIMER1B": {
+         "Registers": ["TCCR1A", "TCCR1B"],
+         "Wave": ["WGM13", "WGM12", "WGM11", "WGM10"],
+         "Clock": ["CS12", "CS11", "CS10"],
+         "Control": ["COM1B1", "COM1B0"],
+         "OCR": ["OCR1BH", "OCR1BL"]
+      },
+      "TIMER2A": {
+         "Registers": ["TCCR2A", "TCCR2B"],
+         "Wave": ["WGM22", "WGM21", "WGM20"],
+         "Clock": ["CS22", "CS21", "CS20"],
+         "Control": ["COM2A1", "COM2A0"],
+         "OCR": ["OCR2A"]
+      },
+      "TIMER2B": {
+         "Registers": ["TCCR2A", "TCCR2B"],
+         "Wave": ["WGM22", "WGM21", "WGM20"],
+         "Clock": ["CS22", "CS21", "CS20"],
+         "Control": ["COM2B1", "COM2B0"],
+         "OCR": ["OCR2B"]
+      }
    }
 }
