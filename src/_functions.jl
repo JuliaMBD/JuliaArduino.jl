@@ -222,7 +222,7 @@ function digitalWrite(pin::AbstractDigitalGPIO, x::PinState)::Nothing
 end
 
 function digitalWrite(pin::AbstractAnalogGPIO, x::PinState)::Nothing
-    # offPWM(pin.TIMER) # reset pwm
+    offPWM(pin.TIMER) # reset pwm
     if x == HIGH
         set!(pin.PORT)
     else
@@ -238,8 +238,8 @@ Write a given pin to GPIO.
 function analogWrite(pin::AbstractAnalogGPIO, val::UInt8)::Nothing
     if val == 0
         digitalWrite(pin, LOW)
-    # elseif val == 255
-    #     digitalWrite(pin, HIGH)
+    elseif val == 255
+        digitalWrite(pin, HIGH)
     else
         onPWM(pin.TIMER, val)
     end

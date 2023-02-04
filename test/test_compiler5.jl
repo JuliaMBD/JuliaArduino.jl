@@ -7,30 +7,46 @@ module Test
     const B = D3
     
     function main()::Int8
-        pinMode(R, OUTPUT)
-        pinMode(G, OUTPUT)
-        pinMode(B, OUTPUT)
-
         initTimer(R)
         initTimer(G)
         initTimer(B)
 
-        analogWrite(R, UInt8(0))
-        analogWrite(G, UInt8(0))
-        analogWrite(B, UInt8(0))
+        pinMode(R, OUTPUT)
+        pinMode(G, OUTPUT)
+        pinMode(B, OUTPUT)
+
+        digitalWrite(R, HIGH)
+        digitalWrite(G, LOW)
+        digitalWrite(B, LOW)
+
+        redValue::UInt8 = 0
+        greenValue::UInt8 = 0
+        blueValue::UInt8 = 0
 
         while true
-            for i = 0:255
-                analogWrite(R, UInt8(i))
-                @delay_ms(50)
+            redValue, greenValue, blueValue = 255, 0, 0
+            for _ = 0:255
+                redValue -= UInt8(1)
+                greenValue += UInt8(1)
+                analogWrite(R, redValue)
+                analogWrite(G, greenValue)
+                @delay_ms(10)
             end
-            for i = 0:255
-                analogWrite(G, UInt8(i))
-                @delay_ms(50)
+            redValue, greenValue, blueValue = 0, 255, 0
+            for _ = 0:255
+                greenValue -= UInt8(1)
+                blueValue += UInt8(1)
+                analogWrite(G, greenValue)
+                analogWrite(B, blueValue)
+                @delay_ms(10)
             end
-            for i = 0:255
-                analogWrite(B, UInt8(i))
-                @delay_ms(50)
+            redValue, greenValue, blueValue = 0, 0, 255
+            for _ = 0:255
+                blueValue -= UInt8(1)
+                redValue += UInt8(1)
+                analogWrite(B, blueValue)
+                analogWrite(R, redValue)
+                @delay_ms(10)
             end
         end
         return 0
@@ -40,5 +56,5 @@ end
 @testset "rgbanalog" begin
 	target = Arduino(Test.MMCU, "")
 	obj = build(Test.main, Tuple{}, target=target)
-	# write("Test_main.o", obj)
+	write("Test_main.o", obj)
 end

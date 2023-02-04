@@ -7,14 +7,16 @@ module Test
 	function main()
 		pinMode(LED, OUTPUT)
 
-		# initTimer(LED)
+		initTimer(LED)
 
 		while true
-			digitalWrite(LED, HIGH)
-			keep(0x50)
-			digitalWrite(LED, LOW)
-			keep(0x50)
-			# digitalWrite(LED, HIGH)
+			analogWrite(LED, UInt8(10))
+			@delay_ms(500)
+			analogWrite(LED, UInt8(200))
+			@delay_ms(500)
+			# digitalWrite(LED, LOW)
+			# # analogWrite(LED, UInt8(200))
+			# @delay_ms(500)
 			# analogWrite(LED, 0x41)
 		end
 	end
