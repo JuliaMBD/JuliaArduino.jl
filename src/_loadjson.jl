@@ -106,16 +106,15 @@ function loadconfiguration(jsonfile)
     data = JSON.parsefile(jsonfile)
     mmcu = data["MMCU"]
     fcpu = data["F_CPU"]
+    ccpm = UInt16(fcpu / 1000000.0)
+    msec1 = UInt16(fcpu * 0.00015)
     expr = loadregisters(data)
     push!(expr, loadtimers(data)...)
     push!(expr, loadgpio(data)...)
     push!(expr, :(const MMCU = $mmcu))
-    push!(expr, quote
-        macro delay_ms(ms)
-            msec1 = UInt16($fcpu * 0.00015)
-            :(busyloop(UInt16($ms), $msec1))
-        end
-    end)
+    push!(expr, :(const F_CPU = $fcpu))
+    push!(expr, :(const M_MSEC1 = $msec1))
+    push!(expr, :(const M_CCPM = $ccpm))
     Expr(:block, expr...)
 end
 

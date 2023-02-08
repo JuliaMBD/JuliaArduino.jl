@@ -1,5 +1,6 @@
 module Test
 	using JuliaArduino
+    using StaticArrays
 	@config "../atmega328p.json"
 
     const R = D6
@@ -7,9 +8,9 @@ module Test
     const B = D3
     
     function main()::Int8
-        initTimer(R)
-        initTimer(G)
-        initTimer(B)
+        inittimer(get_timer(R))
+        inittimer(get_timer(G))
+        inittimer(get_timer(B))
 
         pinMode(R, OUTPUT)
         pinMode(G, OUTPUT)

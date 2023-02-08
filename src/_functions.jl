@@ -1,8 +1,8 @@
-export volatile_load, volatile_store!, keep
+export volatile_load, volatile_store!, keep, cli, sei
 export set!, reset!
 export offPWM, onPWM, initTimer
 export pinMode, digitalRead, digitalWrite, analogWrite
-export busyloop, @delay_ms
+export busyloop, @delay_ms, @clockCyclesPerMicrosecond
 
 """
     volatile_store!(addr::Ptr{UInt8}, v::UInt8)
@@ -37,14 +37,46 @@ function volatile_load(addr::Ptr{UInt8})::UInt8
 end
 
 """
-    keep(x)
+    keep()
 
-Sleep for a given x
+NOP with sideeffect
 """
 function keep()::Nothing
     Base.llvmcall(
         """
         call void asm sideeffect "", "" ()
+        ret void
+        """,
+        Cvoid, Tuple{}
+    )
+    nothing
+end
+
+"""
+    cli()
+
+Disable any interuption globaly
+"""
+function cli()::Nothing
+    Base.llvmcall(
+        """
+        call void asm sideeffect "cli", "" ()
+        ret void
+        """,
+        Cvoid, Tuple{}
+    )
+    nothing
+end
+
+"""
+    sei()
+
+Enable interuptions
+"""
+function sei()::Nothing
+    Base.llvmcall(
+        """
+        call void asm sideeffect "sei", "" ()
         ret void
         """,
         Cvoid, Tuple{}
@@ -94,85 +126,12 @@ function isset(b::RegisterBit)::Bool
     x & get_bitmask(b) != 0x0
 end
 
-"""
-    initTimer(timer)
-
-Initialize timer
-"""
 function initTimer(pin::AGPIO8)::Nothing
     initTimer(pin.TIMER)
 end
 
 function initTimer(pin::AGPIO16)::Nothing
     initTimer(pin.TIMER)
-end
-
-function resetTimer(timer::AbstractTimer)::Nothing
-    volatile_store!(get_addr(timer.TCCRA), 0x00)
-    volatile_store!(get_addr(timer.TCCRB), 0x00)
-end
-
-function setWGM(timer::Timer8, mode::UInt8)::Nothing
-    m = 0b00000011
-    x = volatile_load(get_addr(timer.TCCRA))
-    volatile_store!(get_addr(timer.TCCRA), (x & ~m) | (mode & m))
-    m = 0b00000100
-    x = volatile_load(get_addr(timer.TCCRB))
-    volatile_store!(get_addr(timer.TCCRB), (x & ~(m << 1)) | ((mode & m) << 1)) 
-end
-
-function setWGM(timer::Timer8, mode::UInt8)::Nothing
-    m = 0b00000011
-    x = volatile_load(get_addr(timer.TCCRA))
-    volatile_store!(get_addr(timer.TCCRA), (x & ~m) | (mode & m))
-    m = 0b00001100
-    x = volatile_load(get_addr(timer.TCCRB))
-    volatile_store!(get_addr(timer.TCCRB), (x & ~(m << 1)) | ((mode & m) << 1)) 
-end
-
-function setCS(timer::AbstractTimer, mode::UInt8)::Nothing
-    x = volatile_load(get_addr(timer.TCCRB))
-    volatile_store!(get_addr(timer.TCCRB), (x & 0x07) | mode)
-end
-
-function initTimer(timer::Timer8)::Nothing
-    resetTimer(timer)
-    ## fast pwm
-    setWGM(timer, 0b011)
-    ## divide 64
-    setCS(timer, 0b011)
-end
-
-function initTimer(timer::Timer16)::Nothing
-    resetTimer(timer)
-    ## fast pwm
-    setWGM(timer, 0b0001)
-    ## divide 64
-    setCS(timer, 0b011)
-end
-
-"""
-    onPWM(timer, x)
-
-Set PWM with x (0 - 255)
-"""
-function onPWM(timer::Timer8, x::UInt8)::Nothing
-    set!(timer.COM1)
-    equal!(timer.OCR, x)
-end
-
-function onPWM(timer::Timer16, x::UInt8)::Nothing
-    set!(timer.COM1)
-    equal!(timer.OCRL, x)
-end
-
-"""
-    offPWM(timer, x)
-
-Set PWM with x (0 - 255)
-"""
-function offPWM(timer::AbstractTimer)::Nothing
-    reset!(timer.COM1)
 end
 
 """
@@ -258,3 +217,28 @@ function busyloop(x::UInt16, unit::UInt16)::Nothing
     end
 end
 
+"""
+    delay_ms(ms)
+
+Execute a busy loop
+"""
+macro delay_ms(ms)
+    esc(:(busyloop(UInt16($ms), M_MSEC1)))
+end
+
+"""
+    clockCyclesPerMicrosecond()
+
+A value of clockCyclesPerMicrosecond
+"""
+macro clockCyclesPerMicrosecond()
+    esc(:(M_CCPM))
+end
+
+macro clockCyclesToMicroseconds(a)
+    esc(:($a / M_CCPM))
+end
+
+macro microsecondsToClockCycles(a)
+    esc(:($a * M_CCPM))
+end

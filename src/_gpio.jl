@@ -1,8 +1,11 @@
 export LOW, HIGH
 export INPUT, OUTPUT, INPUT_PULLUP
-export Register, RegisterBit, RegisterAddr, RegisterMask
-export Timer8, Timer16
 export DGPIO, AGPIO, AGPIO8, AGPIO16
+export pinMode
+export digitalRead
+export digitalWrite
+export analogWrite
+export get_timer
 
 const PinState = UInt8
 const LOW = PinState(0x0)
@@ -16,78 +19,6 @@ struct InputPullupPinMode <: AbstractPinMode end
 const INPUT = InputPinMode()
 const INPUT_PULLUP = InputPullupPinMode()
 const OUTPUT = OutputPinMode()
-
-const RegisterType = UInt8
-const RegisterAddr = Ptr{RegisterType}
-const RegisterMask = RegisterType
-
-struct Register
-    addr::RegisterAddr
-
-    function Register(addr::RegisterAddr)
-        new(addr)
-    end
-end
-
-struct RegisterBit
-    addr::RegisterAddr
-    bit::RegisterMask
-
-    function RegisterBit(addr::RegisterAddr, bit::Int)
-        b = 0x1 << bit
-        new(addr, b)
-    end
-end
-
-get_addr(r::Register)::RegisterAddr = r.addr
-get_addr(b::RegisterBit)::RegisterAddr = b.addr
-get_bitmask(b::RegisterBit)::RegisterMask = b.bit
-
-abstract type AbstractTimer end
-
-struct Timer8 <: AbstractTimer
-    TCCRA::Register
-    TCCRB::Register
-    OCR::Register
-    WGM2::RegisterBit
-    WGM1::RegisterBit
-    WGM0::RegisterBit
-    CS2::RegisterBit
-    CS1::RegisterBit
-    CS0::RegisterBit
-    COM1::RegisterBit
-    COM0::RegisterBit
-
-    function Timer8(TCCRA::Register, TCCRB::Register, OCR::Register,
-        WGM2::RegisterBit, WGM1::RegisterBit, WGM0::RegisterBit,
-        CS2::RegisterBit, CS1::RegisterBit, CS0::RegisterBit,
-        COM1::RegisterBit, COM0::RegisterBit)
-        new(TCCRA, TCCRB, OCR, WGM2, WGM1, WGM0, CS2, CS1, CS0, COM1, COM0)
-    end
-end
-
-struct Timer16 <: AbstractTimer
-    TCCRA::Register
-    TCCRB::Register
-    OCRH::Register
-    OCRL::Register
-    WGM3::RegisterBit
-    WGM2::RegisterBit
-    WGM1::RegisterBit
-    WGM0::RegisterBit
-    CS2::RegisterBit
-    CS1::RegisterBit
-    CS0::RegisterBit
-    COM1::RegisterBit
-    COM0::RegisterBit
-
-    function Timer16(TCCRA::Register, TCCRB::Register, OCRH::Register, OCRL::Register,
-        WGM3::RegisterBit, WGM2::RegisterBit, WGM1::RegisterBit, WGM0::RegisterBit,
-        CS2::RegisterBit, CS1::RegisterBit, CS0::RegisterBit,
-        COM1::RegisterBit, COM0::RegisterBit)
-        new(TCCRA, TCCRB, OCRH, OCRL, WGM3, WGM2, WGM1, WGM0, CS2, CS1, CS0, COM1, COM0)
-    end
-end
 
 abstract type AbstractGPIO end
 abstract type AbstractDigitalGPIO <: AbstractGPIO end
@@ -133,3 +64,85 @@ function AGPIO(ddr::RegisterBit, port::RegisterBit, pin::RegisterBit, timer::Tim
     AGPIO16(ddr, port, pin, timer)
 end
 
+"""
+    pinMode(pin::GPIO, m::AbstractPinMode)
+
+Set a given pinmode
+"""
+function pinMode(pin::AbstractGPIO, ::OutputPinMode)::Nothing
+    set(pin.DDR, 0b1)
+    set(pin.PORT, 0b0)
+end
+
+function pinMode(pin::AbstractGPIO, ::InputPinMode)::Nothing
+    set(pin.DDR, 0b0)
+    set(pin.PORT, 0b0)
+end
+
+function pinMode(pin::AbstractGPIO, ::InputPullupPinMode)::Nothing
+    set(pin.DDR, 0b0)
+    set(pin.PORT, 0b1)
+end
+
+"""
+    digitalRead(pin::GPIO)
+
+Read a state (high or low) of a given GPIO.
+"""
+function digitalRead(pin::AbstractGPIO)::PinState
+    (get(pin.DDR) == 0b0) ? PinState(get(pin.PORT)) : PinState(get(pin.PIN))
+    # if get(pin.DDR) == 0b0 ## OUTPUT
+    #     get(pin.PORT) == 0b1 ? HIGH : LOW
+    # else
+    #     get(pin.PIN) == 0b1 ? HIGH : LOW
+    # end
+end
+
+"""
+    digitalWrite(pin::GPIO, v::PinState)
+
+Write a given pin state (high or low) to GPIO.
+"""
+function digitalWrite(pin::AbstractDigitalGPIO, x::PinState)::Nothing
+    set(pin.PORT, UInt8(x))
+    # if x == HIGH
+    #     set(pin.PORT, 0b1)
+    # else
+    #     set(pin.PORT)
+    # end
+end
+
+function digitalWrite(pin::AbstractAnalogGPIO, x::PinState)::Nothing
+    offpwm(pin.TIMER) # reset pwm
+    set(pin.PORT, UInt8(x))
+    # if x == HIGH
+    #     set!(pin.PORT)
+    # else
+    #     reset!(pin.PORT)
+    # end
+end
+
+"""
+    analogWrite(pin::GPIO, val::UInt8)
+
+Write a given pin to GPIO.
+"""
+function analogWrite(pin::AbstractAnalogGPIO, val::UInt8)::Nothing
+    # if val == 0
+    #     digitalWrite(pin, LOW)
+    # elseif val == 255
+    #     digitalWrite(pin, HIGH)
+    # else
+    onpwm(pin.TIMER)
+    setpwmlevel(pin.TIMER, val)
+    # end
+end
+
+"""
+   get_timer(pin::AbstractAnalogGPIO)
+
+Get timer
+"""
+function get_timer(pin::AbstractAnalogGPIO)
+    pin.TIMER
+end

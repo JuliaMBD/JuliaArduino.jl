@@ -1,6 +1,6 @@
 PROG   = Test_main
-OBJ    = Test_main.o
-MAINFN = julia_Main_Test_main
+OBJ    = Test_main.o Test_main2.o
+MAINFN = Main_Test_main
 PORT   = /dev/tty.usbmodem1101
 MCU_TARGET = atmega328p
 

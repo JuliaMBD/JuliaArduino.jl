@@ -2,22 +2,28 @@ module Test
 	using JuliaArduino
 	@config "../atmega328p.json"
 
-	const LED = D6
+	mutable struct Global
+		cnt::UInt8
+	end
+
+	const LED = D13
+	const globalenv = Global(UInt8(0))
+
+	function test2()
+		globalenv.cnt += UInt8(1)
+		nothing
+	end
 
 	function main()
+		# cli() ## test whether it creates or not
+		# sei() ## test whether it creates or not
 		pinMode(LED, OUTPUT)
 
-		initTimer(LED)
-
 		while true
-			analogWrite(LED, UInt8(10))
-			@delay_ms(500)
-			analogWrite(LED, UInt8(200))
-			@delay_ms(500)
-			# digitalWrite(LED, LOW)
-			# # analogWrite(LED, UInt8(200))
+			digitalWrite(LED, HIGH)
 			# @delay_ms(500)
-			# analogWrite(LED, 0x41)
+			digitalWrite(LED, LOW)
+			# @delay_ms(500)
 		end
 	end
 end
@@ -26,4 +32,6 @@ end
 	target = Arduino(Test.MMCU, "")
 	obj = build(Test.main, Tuple{}, target=target)
 	write("Test_main.o", obj)
+	obj2 = build(Test.test2, Tuple{}, target=target, name="timer_ovf")
+	write("Test_main2.o", obj2)
 end

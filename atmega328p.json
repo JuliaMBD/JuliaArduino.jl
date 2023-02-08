@@ -25,7 +25,12 @@
       "OCR1BH": {"addr": "0x8B", "bit": {}},
       "OCR1BL": {"addr": "0x8A", "bit": {}},
       "OCR2A": {"addr": "0xB3", "bit": {}},
-      "OCR2B": {"addr": "0xB4", "bit": {}}
+      "OCR2B": {"addr": "0xB4", "bit": {}},
+      "ADMUX": {"addr": "0x7C", "bit": {"REFS1": 7, "REFS0": 6, "ADLAR": 5, "MUX3": 3, "MUX2": 2, "MUX1": 1, "MUX0": 0}},
+      "ADCSRA": {"addr": "0x7A", "bit": {"ADEN": 7, "ADCS": 6, "ADATE": 5, "ADIF": 4, "ADIE": 3, "ADPS2": 2, "ADPS1": 1, "ADPS0": 0}},
+      "ADCSRB": {"addr": "0x7B", "bit": {"ACME": 6, "ADTS2": 2, "ADTS1": 1, "ADTS0": 0}},
+      "ADCL": {"addr": "0x78", "bit": {"ADC7L": 7, "ADC6L": 6, "ADC5L": 5, "ADC4L": 4, "ADC3L": 3, "ADC2L": 2, "ADC1L": 1, "ADC0L": 0}},
+      "ADCH": {"addr": "0x79", "bit": {"ADC7H": 7, "ADC6H": 6, "ADC5H": 5, "ADC4H": 4, "ADC3H": 3, "ADC2H": 2, "ADC1H": 1, "ADC0H": 0}}
    },
    "GPIO": {
       "D0": {"DDR": "DDRD0", "PORT": "PD0", "PIN": "PIND0"},
