@@ -12,13 +12,13 @@ module Test
         inittimer(get_timer(G))
         inittimer(get_timer(B))
 
-        pinMode(R, OUTPUT)
-        pinMode(G, OUTPUT)
-        pinMode(B, OUTPUT)
+        pinmode(R, OUTPUT)
+        pinmode(G, OUTPUT)
+        pinmode(B, OUTPUT)
 
-        digitalWrite(R, HIGH)
-        digitalWrite(G, LOW)
-        digitalWrite(B, LOW)
+        digitalwrite(R, HIGH)
+        digitalwrite(G, LOW)
+        digitalwrite(B, LOW)
 
         redValue::UInt8 = 0
         greenValue::UInt8 = 0
@@ -29,24 +29,24 @@ module Test
             for _ = 0:255
                 redValue -= UInt8(1)
                 greenValue += UInt8(1)
-                analogWrite(R, redValue)
-                analogWrite(G, greenValue)
+                analogwrite(R, redValue)
+                analogwrite(G, greenValue)
                 @delay_ms(10)
             end
             redValue, greenValue, blueValue = 0, 255, 0
             for _ = 0:255
                 greenValue -= UInt8(1)
                 blueValue += UInt8(1)
-                analogWrite(G, greenValue)
-                analogWrite(B, blueValue)
+                analogwrite(G, greenValue)
+                analogwrite(B, blueValue)
                 @delay_ms(10)
             end
             redValue, greenValue, blueValue = 0, 0, 255
             for _ = 0:255
                 blueValue -= UInt8(1)
                 redValue += UInt8(1)
-                analogWrite(B, blueValue)
-                analogWrite(R, redValue)
+                analogwrite(B, blueValue)
+                analogwrite(R, redValue)
                 @delay_ms(10)
             end
         end
@@ -56,6 +56,6 @@ end
 
 @testset "rgbanalog" begin
 	target = Arduino(Test.MMCU, "")
-	obj = build(Test.main, Tuple{}, target=target)
+	obj = build(Test.main, Tuple{}, target=target, name="main")
 	write("Test_main.o", obj)
 end

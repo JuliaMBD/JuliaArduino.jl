@@ -5,13 +5,13 @@ module Test
     const SW = D3
     
     function main()::Int8
-        pinMode(SW, INPUT)
+        pinmode(SW, INPUT)
         return 0
     end
 end
 
 @testset "input1" begin
 	target = Arduino(Test.MMCU, "")
-	obj = build(Test.main, Tuple{}, target=target)
-	# write("Test_main.o", obj)
+	obj = build(Test.main, Tuple{}, target=target, name="main")
+	write("Test_main.o", obj)
 end

@@ -39,19 +39,19 @@ module Test
     const BUZZER = D12
     
     function main()::Int8
-        pinMode(BUZZER, OUTPUT)
+        pinmode(BUZZER, OUTPUT)
 
         while true
             for _ = 1:800
-                digitalWrite(BUZZER, HIGH)
+                digitalwrite(BUZZER, HIGH)
                 @delay_ms(1)
-                digitalWrite(BUZZER, LOW)
+                digitalwrite(BUZZER, LOW)
                 @delay_ms(1)
             end
             for _ = 1:1000
-                digitalWrite(BUZZER, HIGH)
+                digitalwrite(BUZZER, HIGH)
                 @delay_ms(2)
-                digitalWrite(BUZZER, LOW)
+                digitalwrite(BUZZER, LOW)
                 @delay_ms(2)
             end
         end
@@ -61,6 +61,6 @@ end
 
 @testset "buzzer" begin
 	target = Arduino(Test.MMCU, "")
-	obj = build(Test.main, Tuple{}, target=target)
+	obj = build(Test.main, Tuple{}, target=target, name="main")
 	write("Test_main.o", obj)
 end

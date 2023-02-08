@@ -1,10 +1,10 @@
 export LOW, HIGH
 export INPUT, OUTPUT, INPUT_PULLUP
 export DGPIO, AGPIO, AGPIO8, AGPIO16
-export pinMode
-export digitalRead
-export digitalWrite
-export analogWrite
+export pinmode
+export digitalread
+export digitalwrite
+export analogwrite
 export get_timer
 
 const PinState = UInt8
@@ -65,32 +65,32 @@ function AGPIO(ddr::RegisterBit, port::RegisterBit, pin::RegisterBit, timer::Tim
 end
 
 """
-    pinMode(pin::GPIO, m::AbstractPinMode)
+    pinmode(pin::GPIO, m::AbstractPinMode)
 
 Set a given pinmode
 """
-function pinMode(pin::AbstractGPIO, ::OutputPinMode)::Nothing
+function pinmode(pin::AbstractGPIO, ::OutputPinMode)::Nothing
     set(pin.DDR, 0b1)
     set(pin.PORT, 0b0)
 end
 
-function pinMode(pin::AbstractGPIO, ::InputPinMode)::Nothing
+function pinmode(pin::AbstractGPIO, ::InputPinMode)::Nothing
     set(pin.DDR, 0b0)
     set(pin.PORT, 0b0)
 end
 
-function pinMode(pin::AbstractGPIO, ::InputPullupPinMode)::Nothing
+function pinmode(pin::AbstractGPIO, ::InputPullupPinMode)::Nothing
     set(pin.DDR, 0b0)
     set(pin.PORT, 0b1)
 end
 
 """
-    digitalRead(pin::GPIO)
+    digitalread(pin::GPIO)
 
 Read a state (high or low) of a given GPIO.
 """
-function digitalRead(pin::AbstractGPIO)::PinState
-    (get(pin.DDR) == 0b0) ? PinState(get(pin.PORT)) : PinState(get(pin.PIN))
+function digitalread(pin::AbstractGPIO)::PinState
+    (get(pin.DDR) == 0b1) ? PinState(get(pin.PORT)) : PinState(get(pin.PIN))
     # if get(pin.DDR) == 0b0 ## OUTPUT
     #     get(pin.PORT) == 0b1 ? HIGH : LOW
     # else
@@ -98,12 +98,24 @@ function digitalRead(pin::AbstractGPIO)::PinState
     # end
 end
 
+function digitalread(pin::AbstractGPIO, ::OutputPinMode)::PinState
+    PinState(get(pin.PORT))
+end
+
+function digitalread(pin::AbstractGPIO, ::InputPinMode)::PinState
+    PinState(get(pin.PIN))
+end
+
+function digitalread(pin::AbstractGPIO, ::InputPullupPinMode)::PinState
+    PinState(get(pin.PIN))
+end
+
 """
-    digitalWrite(pin::GPIO, v::PinState)
+    digitalwrite(pin::GPIO, v::PinState)
 
 Write a given pin state (high or low) to GPIO.
 """
-function digitalWrite(pin::AbstractDigitalGPIO, x::PinState)::Nothing
+function digitalwrite(pin::AbstractDigitalGPIO, x::PinState)::Nothing
     set(pin.PORT, UInt8(x))
     # if x == HIGH
     #     set(pin.PORT, 0b1)
@@ -112,7 +124,7 @@ function digitalWrite(pin::AbstractDigitalGPIO, x::PinState)::Nothing
     # end
 end
 
-function digitalWrite(pin::AbstractAnalogGPIO, x::PinState)::Nothing
+function digitalwrite(pin::AbstractAnalogGPIO, x::PinState)::Nothing
     offpwm(pin.TIMER) # reset pwm
     set(pin.PORT, UInt8(x))
     # if x == HIGH
@@ -123,15 +135,15 @@ function digitalWrite(pin::AbstractAnalogGPIO, x::PinState)::Nothing
 end
 
 """
-    analogWrite(pin::GPIO, val::UInt8)
+    analogwrite(pin::GPIO, val::UInt8)
 
 Write a given pin to GPIO.
 """
-function analogWrite(pin::AbstractAnalogGPIO, val::UInt8)::Nothing
+function analogwrite(pin::AbstractAnalogGPIO, val::UInt8)::Nothing
     # if val == 0
-    #     digitalWrite(pin, LOW)
+    #     digitalwrite(pin, LOW)
     # elseif val == 255
-    #     digitalWrite(pin, HIGH)
+    #     digitalwrite(pin, HIGH)
     # else
     onpwm(pin.TIMER)
     setpwmlevel(pin.TIMER, val)

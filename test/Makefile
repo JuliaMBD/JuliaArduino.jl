@@ -1,7 +1,7 @@
 PROG   = Test_main
-OBJ    = Test_main.o Test_main2.o
-MAINFN = Main_Test_main
-PORT   = /dev/tty.usbmodem1101
+OBJS    = Test_main.o
+MAINFN = julia_main
+PORT   = /dev/tty.usbmodem101
 MCU_TARGET = atmega328p
 
 CC      = avr-gcc
@@ -11,7 +11,7 @@ AVRDUDE = avrdude
 
 elf: $(PROG).elf
 
-$(PROG).elf: $(OBJ)
+$(PROG).elf: $(OBJS)
 	$(CC) -Os -DMAINFN=$(MAINFN) -mmcu=$(MCU_TARGET) -o $@ main.c $^
 
 hex: $(PROG).hex

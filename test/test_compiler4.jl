@@ -6,14 +6,14 @@ module Test
     const BUTTON = D3
     
     function main()::Int8
-        pinMode(LED, OUTPUT)
-        pinMode(BUTTON, INPUT_PULLUP)
+        pinmode(LED, OUTPUT)
+        pinmode(BUTTON, INPUT_PULLUP)
 
         while true
-            if digitalRead(BUTTON) == LOW
-                digitalWrite(LED, HIGH)
+            if digitalread(BUTTON) == LOW
+                digitalwrite(LED, HIGH)
             else
-                digitalWrite(LED, LOW)
+                digitalwrite(LED, LOW)
             end
             @delay_ms(1)
         end
@@ -23,6 +23,6 @@ end
 
 @testset "led2" begin
 	target = Arduino(Test.MMCU, "")
-	obj = build(Test.main, Tuple{}, target=target)
-	# write("Test_main.o", obj)
+	obj = build(Test.main, Tuple{}, target=target, name="main")
+	write("Test_main.o", obj)
 end

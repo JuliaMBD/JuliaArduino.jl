@@ -7,18 +7,18 @@ module Test
     const B = D3
     
     function main()::Int8
-        pinMode(R, OUTPUT)
-        pinMode(G, OUTPUT)
-        pinMode(B, OUTPUT)
+        pinmode(R, OUTPUT)
+        pinmode(G, OUTPUT)
+        pinmode(B, OUTPUT)
 
-        digitalWrite(R, LOW)
-        digitalWrite(G, LOW)
-        digitalWrite(B, LOW)
+        digitalwrite(R, LOW)
+        digitalwrite(G, LOW)
+        digitalwrite(B, LOW)
 
         while true
-            digitalWrite(R, HIGH)
+            digitalwrite(R, HIGH)
             @delay_ms(50)
-            digitalWrite(R, LOW)
+            digitalwrite(R, LOW)
             @delay_ms(20)
         end
         return 0
@@ -27,6 +27,6 @@ end
 
 @testset "RGB" begin
 	target = Arduino(Test.MMCU, "")
-	obj = build(Test.main, Tuple{}, target=target)
-	# write("Test_main.o", obj)
+	obj = build(Test.main, Tuple{}, target=target, name="main")
+	write("Test_main.o", obj)
 end
