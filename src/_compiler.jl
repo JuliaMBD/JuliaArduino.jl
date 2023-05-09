@@ -16,7 +16,7 @@ struct Arduino <: GPUCompiler.AbstractCompilerTarget
 end
 
 GPUCompiler.llvm_triple(::Arduino) = "avr-unknown-unknown"
-GPUCompiler.runtime_slug(::GPUCompiler.CompilerJob{Arduino}) = "native_avr-jl_blink"
+GPUCompiler.runtime_slug(::GPUCompiler.CompilerJob{Arduino}) = "native_avr"
 
 struct ArduinoParams <: GPUCompiler.AbstractCompilerParams end
 
@@ -44,13 +44,13 @@ GPUCompiler.runtime_module(::GPUCompiler.CompilerJob{<:Any,ArduinoParams}) = Sta
 GPUCompiler.runtime_module(::GPUCompiler.CompilerJob{Arduino}) = StaticRuntime
 GPUCompiler.runtime_module(::GPUCompiler.CompilerJob{Arduino,ArduinoParams}) = StaticRuntime
 
-function native_job(@nospecialize(func), @nospecialize(types), target)
+function native_job(@nospecialize(func), @nospecialize(types), target; name=GPUCompiler.safe_name(repr(func)))
     @info "Creating compiler job for '$func($types)'"
     source = GPUCompiler.FunctionSpec(
                 func,                              # target function
                 Base.to_tuple_type(types),         # signature
                 false,                             # whether this is a GPU kernel
-                GPUCompiler.safe_name(repr(func))) # the name to use in the asm
+                name) # the name to use in the asm
     # target = Arduino()
     params = ArduinoParams()
     job = GPUCompiler.CompilerJob(target, source, params)
@@ -70,8 +70,8 @@ function build_ir(job, @nospecialize(func), @nospecialize(types))
                     ctx=JuliaContext())     # the LLVM context to use
 end
 
-function build_obj(@nospecialize(func), @nospecialize(types); target=target) #, kwargs...)
-    job = native_job(func, types, target)
+function build_obj(@nospecialize(func), @nospecialize(types); target=target, name=GPUCompiler.safe_name(repr(func))) #, kwargs...)
+    job = native_job(func, types, target, name=name)
     @info "Compiling AVR ASM for '$func($types)'"
     ir, ir_meta = build_ir(job, func, types)
     obj, _ = GPUCompiler.emit_asm(
@@ -83,8 +83,8 @@ function build_obj(@nospecialize(func), @nospecialize(types); target=target) #, 
     obj
 end
 
-function build(fun, args; target=target)
-    obj = build_obj(fun, args, target=target)
+function build(func, args; target=target, name=GPUCompiler.safe_name(repr(func)))
+    obj = build_obj(func, args, target=target, name=name)
     mktemp() do path, io
         write(io, obj)
         flush(io)
