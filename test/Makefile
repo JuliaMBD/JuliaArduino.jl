@@ -2,7 +2,7 @@ PROG   = Test_main
 OBJS    = Test_main.o
 MAINFN = julia_main
 PORT   = /dev/tty.usbmodem101
-MCU_TARGET = atmega328p
+MCU_TARGET = atmega2560
 
 CC      = avr-gcc
 OBJCOPY = avr-objcopy

@@ -2,7 +2,7 @@ using JuliaArduino
 
 module RGB
 	using JuliaArduino
-	@config "../atmega328p.json"
+	@config "atmega328p.json"
 
     const R = D6
     # const G = D5

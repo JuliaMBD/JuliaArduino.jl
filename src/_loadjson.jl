@@ -75,6 +75,22 @@ function loadtimers(json)
     expr
 end
 
+function loadserials(json)
+    expr = Expr[]
+    for (label, serial) = json["Serials"]
+        seriallabel = Symbol(label)
+        udr0 = Symbol(serial["Registers"][1])
+        ucsr0a = Symbol(serial["Registers"][2])
+        ucsr0b = Symbol(serial["Registers"][3])
+        ucsr0c = Symbol(serial["Registers"][4])
+        ubrr0 = Symbol(serial["Registers"][5])
+        push!(expr, Expr(:const, Expr(:(=), seriallabel,
+            Expr(:call, :Serial, udr0, ucsr0a, ucsr0b, ucsr0c,
+                ubrr0))))
+    end
+    expr
+end
+
 """
     expr = loadgpio(json)
 
@@ -110,6 +126,7 @@ function loadconfiguration(jsonfile)
     msec1 = UInt16(fcpu * 0.00015)
     expr = loadregisters(data)
     push!(expr, loadtimers(data)...)
+    push!(expr, loadserials(data)...)
     push!(expr, loadgpio(data)...)
     push!(expr, :(const MMCU = $mmcu))
     push!(expr, :(const F_CPU = $fcpu))
